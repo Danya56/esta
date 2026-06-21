@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}О компании | ЭСТА{% endblock title %}
+{%load static%}
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+
+    {% include 'about/sections/about.html' %}
+
+    {% include 'main/sections/advantages.html' %}
+
+    {% include 'documents/proccessing_personal_data.html' %}
+    {% include 'documents/politics_personal_data.html' %}
+    {% include 'documents/agree_cookies.html' %}
+    {% include 'documents/privacy.html' %}
+</main>
+{% endblock %}

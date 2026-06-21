@@ -1,0 +1,181 @@
+<dialog
+    x-data 
+    @open-politics-personal-data-document.window="$el.showModal(); document.body.style.overflow = 'hidden'"
+    @close-politics-personal-data-document.window="$el.close(); document.body.style.overflow = ''"  
+    @click.self="$el.close()"
+    class="backdrop:backdrop-blur-md backdrop:bg-black/40 p-0 rounded-xl shadow-2xl w-full max-w-full sm:max-w-[90%] lg:max-w-[1000px] max-h-[85vh] bg-white border border-gray-100"
+>
+    <div class="relative flex flex-col max-h-[85vh]">
+        
+        <div class="p-6 pb-4 border-b border-gray-100 pr-16 bg-gray-50/50 rounded-t-xl">
+            <h3 class="font-bold text-lg md:text-xl font-montserrat tracking-tight uppercase">
+                Политика в отношении обработки персональных данных
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">ООО «Компания «ЭСТА»</p>
+        </div>
+
+        <button type="button" @click="$el.closest('dialog').close(); document.body.style.overflow = ''" class="absolute top-5 right-4 w-10 h-10 text-esta-accent hover:text-text-esta-accent-hover focus:outline-none transition-colors duration-300 z-50">
+            <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M640.234 206.9C646.306 200.613 649.666 192.193 649.59 183.453C649.514 174.713 646.008 166.353 639.828 160.173C633.647 153.992 625.287 150.487 616.547 150.411C607.807 150.335 599.387 153.695 593.1 159.767L400 352.867L206.9 159.767C200.614 153.695 192.194 150.335 183.454 150.411C174.714 150.487 166.353 153.992 160.173 160.173C153.993 166.353 150.487 174.713 150.411 183.453C150.335 192.193 153.695 200.613 159.767 206.9L352.867 400L159.767 593.1C156.583 596.175 154.044 599.853 152.297 603.92C150.55 607.987 149.631 612.361 149.592 616.787C149.554 621.213 150.397 625.602 152.073 629.698C153.749 633.795 156.224 637.517 159.354 640.646C162.484 643.776 166.205 646.251 170.302 647.927C174.399 649.603 178.788 650.447 183.214 650.408C187.64 650.37 192.014 649.45 196.081 647.703C200.147 645.956 203.826 643.417 206.9 640.233L400 447.133L593.1 640.233C599.387 646.305 607.807 649.665 616.547 649.589C625.287 649.513 633.647 646.008 639.828 639.827C646.008 633.647 649.514 625.287 649.59 616.547C649.666 607.807 646.306 599.387 640.234 593.1L447.134 400L640.234 206.9Z" fill="currentColor"/>
+            </svg>
+        </button>
+
+        <div class="p-6 overflow-y-auto text-sm text-gray-600 space-y-6 leading-relaxed">
+            
+            <div>
+                <h4 class="font-bold text-gray-900 text-base mb-2">1. Общие положения</h4>
+                <div class="space-y-2 pl-2 border-l-2 border-gray-100">
+                    <p><strong>1.1.</strong> Настоящая Политика ООО «Компания «ЭСТА» (далее - Оператор) в отношении обработки персональных данных (далее - Политика) разработана во исполнение требований п. 2 ч. 1 ст. 18.1 Федерального закона от 27.07.2006 N 152-ФЗ «О персональных данных» (далее - Закон о персональных данных) в целях обеспечения защиты прав и свобод человека и гражданина при обработке его персональных данных в процессе использования сайта Оператора.</p>
+                    <p><strong>1.2.</strong> Политика распространяется на отношения в области обработки персональных данных, возникшие у Оператора как до, так и после утверждения настоящей Политики.</p>
+                    <p><strong>1.3.</strong> Во исполнение требований ч. 2 ст. 18.1 Закона о персональных данных настоящая Политика публикуется в свободном доступе в информационно-телекоммуникационной сети Интернет на сайте Оператора.</p>
+                    <p><strong>1.4. Основные понятия, используемые в Политике:</strong></p>
+                    <ul class="list-disc list-inside pl-2 space-y-1 text-xs">
+                        <li><strong>Пользователь</strong> - лицо, имеющее доступ и использующее сайт Оператора посредством сети Интернет;</li>
+                        <li><strong>Персональные данные</strong> - любая информация, относящаяся к прямо или косвенно определенному или определяемому физическому лицу;</li>
+                        <li><strong>Оператор персональных данных</strong> - ООО «Компания «ЭСТА», самостоятельно организующее и осуществляющее обработку персональных данных, определяющее цели и состав данных;</li>
+                        <li><strong>Обработка персональных данных</strong> - любое действие (операция) с персональными данными, включая сбор, запись, систематизацию, накопление, хранение, уточнение, извлечение, использование, передачу, обезличивание, блокирование, удаление и уничтожение.</li>
+                    </ul>
+                    <p><strong>1.5. Права и обязанности Оператора:</strong> Оператор вправе самостоятельно определять комплекс мер для выполнения обязанностей по 152-ФЗ, поручать обработку третьим лицам с согласия субъекта. Оператор обязан предоставлять ответы на запросы в течение 10 рабочих дней и уведомлять Роскомнадзор о компьютерных инцидентах (утечках) в течение 24/72 часов.</p>
+                    <p><strong>1.6. Права субъекта:</strong> Пользователь имеет право на получение информации об обработке его данных, требование их уточнения, блокирования или уничтожения в случае неполноты или неточности, а также на отзыв ранее данного согласия.</p>
+                    <p><strong>1.9. Сведения о правилах пользования сайтом:</strong> Использование сайта и предоставление данных означает безусловное согласие с Политикой. В случае несогласия Пользователь обязан прекратить использование сайта.</p>
+                </div>
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-base mb-2">2. Цели, правовые основания и сроки обработки персональных данных</h4>
+                <div class="space-y-4 pl-2 border-l-2 border-gray-100">
+                    
+                    <div class="bg-gray-50/50 p-3 rounded-lg border border-gray-100">
+                        <p class="font-semibold text-gray-800 text-xs uppercase tracking-wider mb-2">Цель 1: Оказание услуг, предоставление консультаций</p>
+                        <div class="space-y-1 text-xs">
+                            <p>• <strong>Категории субъектов:</strong> Клиенты, потенциальные клиенты, их представители.</p>
+                            <p>• <strong>Состав данных:</strong> Имя, номер телефона, адрес электронной почты (email).</p>
+                            <p>• <strong>Перечень действий:</strong> Сбор, запись, систематизация, хранение, уточнение, использование, уничтожение.</p>
+                            <p>• <strong>Сроки хранения:</strong> До окончания предоставления услуги или до момента получения отзыва согласия.</p>
+                            <p>• <strong>Основание:</strong> Согласие субъекта, исполнение договора/обязанностей, возложенных законом.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50/50 p-3 rounded-lg border border-gray-100">
+                        <p class="font-semibold text-gray-800 text-xs uppercase tracking-wider mb-2">Цель 2: Анализ пользовательского опыта для улучшения работы сайта и услуг</p>
+                        <div class="space-y-1 text-xs">
+                            <p>• <strong>Категории субъектов:</strong> Все пользователи сайта esta56.ru.</p>
+                            <p>• <strong>Состав данных:</strong> Куки-файлы (cookies), IP-адреса, технические данные об устройствах, кликах и сессиях.</p>
+                            <p>• <strong>Способ обработки:</strong> Автоматизированный, с использованием счетчиков ООО «ЯНДЕКС» (Яндекс.Метрика).</p>
+                            <p>• <strong>Сроки хранения:</strong> До достижения цели или до отзыва согласия (ограничения работы с cookies в браузере).</p>
+                            <p>• <strong>Основание:</strong> Согласие субъекта персональных данных.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <p class="font-medium text-gray-900 mb-2 text-xs">Перечень используемых метрик и куки-файлов:</p>
+                        
+                        <div class="border border-gray-200 rounded-lg overflow-hidden mb-4 shadow-sm">
+                            <div class="bg-gray-100 px-3 py-2 text-xs font-bold text-gray-700 border-b border-gray-200">Раздел: Файлы Cookie</div>
+                            
+                            <table class="min-w-full divide-y divide-gray-200 hidden md:table text-[11px]">
+                                <thead class="bg-gray-50 text-gray-500 uppercase font-semibold">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Название</th>
+                                        <th class="px-3 py-2 text-left">Тип</th>
+                                        <th class="px-3 py-2 text-left">Срок действия</th>
+                                        <th class="px-3 py-2 text-left">Описание</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-100">
+                                    <tr><td class="px-3 py-2 font-mono font-bold">_ym_metrika_enabled</td><td class="px-3 py-2">Аналитическая</td><td class="px-3 py-2">60 минут</td><td class="px-3 py-2">Проверяет корректность установки cookies Метрики.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">_ym_isad</td><td class="px-3 py-2">Техническая</td><td class="px-3 py-2">2 дня</td><td class="px-3 py-2">Определяет наличие блокировщиков рекламы у посетителя.</td></tr>
+                                    <tr><td class="px-3 py-2 font-mono font-bold">_ym_uid</td><td class="px-3 py-2">Аналитическая</td><td class="px-3 py-2">1 год</td><td class="px-3 py-2">Позволяет уникализировать и различать посетителей сайта.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">_ym_d</td><td class="px-3 py-2">Аналитическая</td><td class="px-3 py-2">1 год</td><td class="px-3 py-2">Сохраняет дату самого первого визита пользователя на сайт.</td></tr>
+                                    <tr><td class="px-3 py-2 font-mono font-bold">gdpr / is_gdpr</td><td class="px-3 py-2">Техническая</td><td class="px-3 py-2">До 2 лет</td><td class="px-3 py-2">Различает пользователей из зоны действия регламента GDPR.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">_ym_visorc_*</td><td class="px-3 py-2">Аналитическая</td><td class="px-3 py-2">30 минут</td><td class="px-3 py-2">Необходим для корректного воспроизведения сессий Вебвизора.</td></tr>
+                                    <tr><td class="px-3 py-2 font-mono font-bold">abs-sid</td><td class="px-3 py-2">Техническая</td><td class="px-3 py-2">Сессия</td><td class="px-3 py-2">Уникальный идентификатор текущего визита.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">yandexuid / i</td><td class="px-3 py-2">Техническая</td><td class="px-3 py-2">1 год</td><td class="px-3 py-2">Внутренние сквозные идентификаторы посетителей Яндекса.</td></tr>
+                                </tbody>
+                            </table>
+
+                            <div class="block md:hidden divide-y divide-gray-100 text-xs bg-white">
+                                <div class="p-3"><p class="font-bold font-mono">_ym_uid / _ym_d</p><p class="text-gray-500">Аналитические • 1 год</p><p class="text-[11px] mt-1 text-gray-600">Различают посетителей сайта и фиксируют дату первого визита.</p></div>
+                                <div class="p-3 bg-gray-50/50"><p class="font-bold font-mono">_ym_isad / _ym_metrika_enabled</p><p class="text-gray-500">Технические • До 2 дней</p><p class="text-[11px] mt-1 text-gray-600">Проверяют счетчик и определяют наличие блокировщиков рекламы.</p></div>
+                                <div class="p-3"><p class="font-bold font-mono">_ym_visorc_*</p><p class="text-gray-500">Аналитическая • 30 минут</p><p class="text-[11px] mt-1 text-gray-600">Обеспечивает запись и воспроизведение движений в Вебвизоре.</p></div>
+                                <div class="p-3 bg-gray-50/50"><p class="font-bold font-mono">yandexuid / gdpr / abs-sid</p><p class="text-gray-500">Технические</p><p class="text-[11px] mt-1 text-gray-600">Идентификаторы сессий, техническая разметка регионов.</p></div>
+                            </div>
+                        </div>
+
+                        <div class="border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                            <div class="bg-gray-100 px-3 py-2 text-xs font-bold text-gray-700 border-b border-gray-200">Раздел: Хранилища LocalStorage и SessionStorage</div>
+                            
+                            <table class="min-w-full divide-y divide-gray-200 hidden md:table text-[11px]">
+                                <thead class="bg-gray-50 text-gray-500 uppercase font-semibold">
+                                    <tr>
+                                        <th class="px-3 py-2 text-left">Ключ свойства</th>
+                                        <th class="px-3 py-2 text-left">Область видимости</th>
+                                        <th class="px-3 py-2 text-left">Назначение / Описание</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-100">
+                                    <tr><td class="px-3 py-2 font-mono font-bold">_ym&lt;id&gt;_lastHit</td><td class="px-3 py-2">LocalStorage</td><td class="px-3 py-2">Фиксация времени последнего действия для расчета показателя отказов.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">_ym&lt;id&gt;_lsid / _ym_uid</td><td class="px-3 py-2">LocalStorage</td><td class="px-3 py-2">Дублирование и верификация уникального ID пользователя между сессиями.</td></tr>
+                                    <tr><td class="px-3 py-2 font-mono font-bold">_ym_retryReqs</td><td class="px-3 py-2">LocalStorage</td><td class="px-3 py-2">Буферизация и повторная отправка запросов, не ушедших на сервер из-за сбоя сети.</td></tr>
+                                    <tr class="bg-gray-50/50"><td class="px-3 py-2 font-mono font-bold">_ym_debugger_state</td><td class="px-3 py-2">SessionStorage</td><td class="px-3 py-2">Отслеживание состояния встроенного технического отладчика Метрики.</td></tr>
+                                </tbody>
+                            </table>
+
+                            <div class="block md:hidden divide-y divide-gray-100 text-xs bg-white">
+                                <div class="p-3"><p class="font-bold font-mono">_ym&lt;id&gt;_lastHit / _ym_retryReqs</p><p class="text-gray-500">LocalStorage</p><p class="text-[11px] mt-1 text-gray-600">Рассчитывают время отказов на сайте и хранят неотправленные пакеты сетевых данных.</p></div>
+                                <div class="p-3 bg-gray-50/50"><p class="font-bold font-mono">_ym_uid / _ym_debugger_state</p><p class="text-gray-500">LocalStorage / SessionStorage</p><p class="text-[11px] mt-1 text-gray-600">Сохранение ID посетителя в локальном кэше браузера и флаги веб-отладки.</p></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-base mb-2">3. Порядок и условия обработки персональных данных</h4>
+                <div class="space-y-2 pl-2 border-l-2 border-gray-100">
+                    <p><strong>3.1.</strong> Обработка персональных данных осуществляется Оператором строго в соответствии с требованиями законодательства Российской Федерации.</p>
+                    <p><strong>3.4.</strong> Не допускается раскрытие третьим лицам и распространение персональных данных без явного согласия субъекта персональных данных, если иное не предусмотрено федеральным законом. Согласие на распространение оформляется строго отдельно.</p>
+                    <p><strong>3.6. Организационно-технические меры защиты:</strong> Оператор назначает лиц, ответственных за безопасность, утверждает локальные акты, организует закрытый учет физических/цифровых документов и хранит данные в условиях, полностью исключающих несанкционированный доступ.</p>
+                    <p><strong>3.7. Срочные прекращения обработки:</strong> В случае выявления неправомерных действий обработка прекращается в течение 3 рабочих дней. При отзыве согласия или достижении целей данные безвозвратно уничтожаются.</p>
+                    <p><strong>3.9. Локализация баз данных:</strong> При сборе персональных данных через сеть Интернет Оператор гарантирует, что запись, систематизация, накопление и хранение персональных данных граждан РФ осуществляются с использованием баз данных, <strong>находящихся строго на территории Российской Федерации</strong>.</p>
+                </div>
+            </div>
+
+            <hr class="border-gray-100" />
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-base mb-2">4. Актуализация, исправление, уничтожение и запросы субъектов</h4>
+                <div class="space-y-2 pl-2 border-l-2 border-gray-100">
+                    <p><strong>4.1.</strong> Сведения об обработке данных предоставляются Пользователю по официальному запросу в течение 10 рабочих дней. Запрос должен содержать паспортные данные (или реквизиты иного удостоверения личности), подтверждение участия в отношениях с Оператором и личную подпись (в т.ч. ЭЦП).</p>
+                    <p><strong>4.2 - 4.3.</strong> При обнаружении неточностей или фактов неправомерной обработки данных Оператор блокирует их с момента обращения на период проведения проверки. Исправление неточных данных производится в течение 7 рабочих дней со дня предоставления подтверждающих документов.</p>
+                    <p><strong>4.4. Протокол реагирования на инциденты (утечки):</strong></p>
+                    <ul class="list-disc list-inside pl-2 space-y-1 text-xs">
+                        <li><strong>В течение 24 часов</strong> — Оператор обязуется направить первичное уведомление в Роскомнадзор о факте инцидента, предполагаемых причинах, нанесенном вреде и принятых мерах.</li>
+                        <li><strong>В течение 72 часов</strong> — Оператор обязуется предоставить в Роскомнадзор финальные результаты внутреннего расследования с указанием причин и виновных лиц (при наличии).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-base mb-2">5. Дополнительные условия</h4>
+                <div class="space-y-2 pl-2 border-l-2 border-gray-100 text-xs">
+                    <p><strong>5.2.</strong> Оператор имеет право вносить изменения в настоящую Политику без предварительного согласия со стороны Пользователей.</p>
+                    <p><strong>5.3.</strong> Новая редакция Политики вступает в законную силу немедленно с момента ее публикации на страницах сайта <a href="https://esta56.ru" target="_blank" class="text-blue-600 hover:underline">esta56.ru</a>.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="p-4 border-t border-gray-100 bg-gray-50 flex justify-end rounded-b-xl">
+            <button type="button" @click="$el.closest('dialog').close()" class="px-5 py-2 bg-gray-800 text-white text-sm font-medium rounded-md hover:bg-gray-700 transition-colors shadow-sm">
+                Ознакомлен(а)
+            </button>
+        </div>
+
+    </div>
+</dialog>

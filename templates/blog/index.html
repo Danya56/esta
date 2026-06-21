@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}Блог компании ЭСТА{% endblock title %}
+{%load static%}
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+    <div class="flex flex-wrap justify-between items-center pt-12 gap-y-4 lg:pt-20 border-b-2 border-esta-accent pb-4">
+        <h1 class="text-2xl font-bold font-montserrat">Блог компании Эста</h1>
+        <form 
+            method="get" 
+            action="{% url 'article_search' %}"
+
+            class="relative flex items-center gap-x-4 w-full md:w-[300px] text-text-muted hover:text-esta-accent transition-colors">
+            <input 
+                type="text" 
+                name="q"
+                value="{{ request.GET.q }}" 
+                placeholder="Поиск статей..."
+
+                class="border-2 border-border rounded pl-8 py-2 text-sm w-full focus:outline-esta-accent hover:border-esta-accent hover:text-text-main transition-colors" required>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" height="24" width="24" class="absolute left-2 top-1/2 -translate-y-1/2">
+                <path fill="currentColor" d="M9.45 15.775c-1.80265 0 -3.32835 -0.625 -4.577 -1.875C3.624335 12.65 3 11.14165 3 9.375c0 -1.7667 0.625 -3.275 1.875 -4.525025 1.25 -1.25 2.7625 -1.875 4.5375 -1.875 1.775 0 3.28335 0.625 4.525 1.875C15.17915 6.1 15.8 7.60955 15.8 9.37875c0 0.71415 -0.11665 1.40455 -0.35 2.07125 -0.23335 0.66665 -0.58335 1.29165 -1.05 1.875l6.05 6c0.15 0.14265 0.225 0.32415 0.225 0.5445 0 0.2203 -0.075 0.4055 -0.225 0.5555 -0.15 0.15 -0.33515 0.225 -0.5555 0.225s-0.40185 -0.075 -0.5445 -0.225L13.325 14.4c-0.5 0.4333 -1.083 0.7708 -1.749 1.0125 -0.666 0.24165 -1.37465 0.3625 -2.126 0.3625Zm-0.025 -1.5c1.35415 0 2.50525 -0.4792 3.45325 -1.4375C13.8261 11.87915 14.3 10.725 14.3 9.375s-0.4739 -2.5042 -1.42175 -3.4625c-0.948 -0.95836 -2.0991 -1.437525 -3.45325 -1.437525 -1.368 0 -2.53085 0.479165 -3.4885 1.437525C4.978835 6.8708 4.5 8.025 4.5 9.375s0.478835 2.50415 1.4365 3.4625c0.95765 0.9583 2.1205 1.4375 3.4885 1.4375Z" stroke-width="0.5"></path>
+            </svg>
+            <button type="submit" class="py-2 px-4 text-white rounded-xl font-semibold bg-esta-accent hover:bg-esta-accent-hover transition-colors">Найти</button>
+        </form>
+    </div>
+    <div class="pt-6 text-gray-500 text-sm">
+        {% if current_tag%}
+            <span>Статьи по тегу: {{current_tag}}</span>
+        {% else %}
+            <span>Все статьи</span>
+        {% endif %}
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 pt-12 gap-6 lg:pt-12">
+        {% for article in page_obj  %}
+        <article class="flex flex-col p-4 border-2 border-orange-200 rounded-xl translate-y-0 hover:-translate-y-2 shadow-none hover:shadow-md transition duration-500 transform will-change-transform">
+            <img class="h-48 w-full object-cover" src="{{article.image.url}}" alt="{{article.title}}" />
+            <div class="flex items-center flex-1 gap-2 py-4 min-h-[64px]">
+                <span class="text-xs">теги:</span>
+                <ul class="flex items-center gap-x-2 overflow-x-auto whitespace-nowrap [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]">
+                    {% for tag in article.tags.all %}
+                        <li class="text-xs font-semibold font-montserrat bg-esta-accent p-2 rounded-full text-white uppercase tracking-wider">
+                            <a href="{% url 'articles_by_tag' tag.slug %}">{{tag.name}}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+            </div>
+            <h2 class="text-xl font-bold text-gray-900 line-clamp-2 overflow-hidden min-h-[56px]">{{article.title}}</h2>
+            <p class="mt-3 text-xs text-gray-500 flex-1 line-clamp-2 overflow-hidden h-[32px]">{{article.description}}</p>
+            
+            <a href="{{ article.get_absolute_url }}" class="mt-auto pt-2 inline-flex items-center text-sm font-semibold text-esta-accent hover:text-esta-accent-hover">
+                Читать далее →
+            </a>
+        </article>
+        {% empty %}
+            <p>Статей пока нет.</p>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pt-4 flex items-center gap-x-4">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="text-xs bg-esta-accent py-2 px-4 rounded-full text-white uppercase tracking-wider hover:bg-esta-accent-hover transition-colors">&laquo; Назад</a>
+        {% endif %}
+
+        <div class="flex items-center gap-x-2">
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <span class="flex items-center justify-center bg-esta-accent w-8 h-8 text-white rounded-full"><strong>{{ num }}</strong></span>
+                    {% else %}
+                    <a href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="text-xs bg-esta-accent py-2 px-4 rounded-full text-white uppercase tracking-wider hover:bg-esta-accent-hover transition-colors">Вперед &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% include 'documents/proccessing_personal_data.html' %}
+    {% include 'documents/politics_personal_data.html' %}
+    {% include 'documents/agree_cookies.html' %}
+    {% include 'documents/privacy.html' %}
+</main>
+{% endblock %}

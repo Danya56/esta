@@ -1,0 +1,22 @@
+{%load static%}
+
+<section x-data class="py-8 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div>
+        <h1 class="font-montserrat text-2xl md:text-4xl font-extrabold uppercase tracking-tight leading-tight">
+            Промышленные теплогенераторы <br>
+            <span class="text-esta-accent">от 50 до 1000 кВт</span>
+        </h1>
+        <p class="mt-4 text-lg text-gray-600">
+            Воздушное отопление для складов, цехов и ангаров. <br>Доставка и монтаж по РФ.
+        </p>
+        <div class="mt-4 flex flex-wrap gap-4">
+            <button type="button" @click="$dispatch('open-callback')" class="bg-esta-accent hover:bg-esta-accent-hover text-white font-bold px-6 py-3 rounded transition w-full">
+                Подобрать оборудование
+            </button>
+        </div>
+    </div>
+    <div class="flex justify-center items-center">
+        <img src="{%static 'icons/hero.png'%}" />
+    </div>
+
+</section>

@@ -1,0 +1,174 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} ЭСТА | Промышленное теплооборудование {% endblock%}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        esta: {
+                          accent: "#F06236",
+                          'accent-hover': '#D5542E',
+                        },
+                        text: {
+                            main: '#212121',
+                            muted: '#595959',
+                        },
+                        'color-border': "#E0E0E0",
+                        bg: {
+                            main: '#FFFFFF',
+                            section: '#F4F4F4'
+                        },
+                        footer: '#1B1B1B',
+                    },
+                    fontFamily: {
+                        montserrat: ['Montserrat', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif']
+                    },
+                    animation : {
+                        'marquee': 'marquee 45s linear infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                        '0%': { transform: 'translateX(0%)' },
+                        '100%': { transform: 'translateX(-50%)' },
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <style>
+        [x-cloak] { 
+            display: none !important; 
+        }
+    </style>
+
+</head>
+<body class="bg-gray-50 text-base text-text-main font-roboto scrollbar-gutter-stable" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <header 
+        x-data="{isOpen: false}" 
+        x-transition
+        x-init="$watch('isOpen', value => document.body.style.overflow = value ? 'hidden' : '')"
+        class="bg-white border-b border-gray-100 sticky top-0 z-50 relative"
+    
+    >
+        <div class="lg:max-w-6xl mx-auto px-4 py-4 md:py-5 flex justify-between  items-center">
+            <a href="/" class="flex items-center space-x-2">
+                <img src="{% static '/icons/logo.png'%}" alt="Эста"  class="w-24 h-7 md:w-32 md:h-10"/>
+            </a>
+
+            <nav class="hidden md:flex lg:gap-x-4 md:justify-between font-medium items-center">
+                <a href="#" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Оборудование</a>
+                <a href="{% url 'main_index' %}#application-section" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Сферы применения</a>
+                <a href="/about/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">О компании</a>
+                <a href="/blog/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Блог</a>
+            </nav>
+            <div class="flex flex-wrap justify-center items-center lg:space-x-6">
+                <a href="tel:+73532577073" class="hidden lg:block hover:text-esta-accent font-bold transition">+7 (3532)-577-073</a>
+                <button @click="$dispatch('open-callback')" class="text-xs md:text-base bg-esta-accent hover:bg-esta-accent-hover text-white font-bold px-4 lg:px-6 py-3 rounded transition">
+                    Заказать звонок
+                </button>
+            </div>
+
+            <button id="menu-btn-open" @click="isOpen = !isOpen" class="md:hidden flex justify-center items-center w-12 h-12 focus:outline-none">
+                <svg class="text-esta-accent w-full h-full" viewBox="0 0 800 800" fill="none" stroke="currentColor" xmlns="http://w3.org">
+                    <path d="M133.333 600H666.666" stroke-width="66.6667" stroke-linecap="round"/>
+                    <path d="M133.333 400H666.666" stroke-width="66.6667" stroke-linecap="round"/>
+                    <path d="M133.333 200H666.666" stroke-width="66.6667" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div id="mobile-menu" x-show="isOpen" x-cloak x-transition class="md:hidden absolute top-0 left-0 p-4 flex flex-col items-end gap-y-4 w-full h-screen bg-black/90 backdrop-blur-sm fixed inset-0 z-100">
+                <button id="menu-btn-close" @click="isOpen = false" class="w-10 h-10 text-white hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300">
+                    <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M640.234 206.9C646.306 200.613 649.666 192.193 649.59 183.453C649.514 174.713 646.008 166.353 639.828 160.173C633.647 153.992 625.287 150.487 616.547 150.411C607.807 150.335 599.387 153.695 593.1 159.767L400 352.867L206.9 159.767C200.614 153.695 192.194 150.335 183.454 150.411C174.714 150.487 166.353 153.992 160.173 160.173C153.993 166.353 150.487 174.713 150.411 183.453C150.335 192.193 153.695 200.613 159.767 206.9L352.867 400L159.767 593.1C156.583 596.175 154.044 599.853 152.297 603.92C150.55 607.987 149.631 612.361 149.592 616.787C149.554 621.213 150.397 625.602 152.073 629.698C153.749 633.795 156.224 637.517 159.354 640.646C162.484 643.776 166.205 646.251 170.302 647.927C174.399 649.603 178.788 650.447 183.214 650.408C187.64 650.37 192.014 649.45 196.081 647.703C200.147 645.956 203.826 643.417 206.9 640.233L400 447.133L593.1 640.233C599.387 646.305 607.807 649.665 616.547 649.589C625.287 649.513 633.647 646.008 639.828 639.827C646.008 633.647 649.514 625.287 649.59 616.547C649.666 607.807 646.306 599.387 640.234 593.1L447.134 400L640.234 206.9Z" fill="currentColor" stroke="currentColor"/>
+                    </svg>
+                </button>
+                <nav class="flex flex-col gap-y-2 text-white text-2xl justify-between font-medium items-end">
+                    <a href="#" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Оборудование</a>
+                    <a href="{% url 'main_index' %}#application-section" @click="isOpen=false" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Сферы применения</a>
+                    <a href="/about/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">О компании</a>
+                    <a href="/blog/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Блог</a>
+                    <a href="tel:+73532577073" class="pt-12 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">+7 (3532)-577-073</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+    
+    <footer x-data class="bg-footer p-8 mt-20 text-center text-sm text-white/75 items-center">
+        <div class="lg:max-w-screen-2xl lg:mx-auto flex flex-col gap-y-6">
+            <div class="grid grid-cols-2 gap-4 md:flex md:justify-between items-start w-full md:gap-x-10 lg:justify-between lg:gap-x-0">
+                <img src="{%static '/icons/footer-logo.png'%}" alt="Эста" class="hidden lg:block w-16 h-16">
+                <div class="flex flex-col gap-y-2 items-start">
+                    <div class="font-bold text-xl text-white/35">Информация</div>
+                    <nav class="flex flex-col gap-y-2 items-start pl-1">
+                            <a href="/about/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">О компании</a>
+                            <a href="#" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Доставка</a>
+                            <a href="/blog/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Блог</a>
+                    </nav>
+                </div>
+                <div class="flex flex-col gap-y-2 items-start">
+                    <div class="font-bold text-xl text-white/35">Контакты</div>
+                    <div class="flex flex-col gap-y-2 items-start pl-1">
+                            <a href="https://yandex.ru/maps/org/esta/188060448853" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Адрес: г. Оренбург, ул. Шевченко, 20Б</a>
+                            <a href="tel:+73532577073" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">+7 (3532) 577-073</a>
+                            <a href="mailto:npoesta@bk.ru" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">npoesta@bk.ru</a>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-y-2 items-start">
+                    <div class="font-bold text-xl text-white/35">Документы</div>
+                    <div class="flex flex-col gap-y-2 items-start pl-1">
+                            <button @click="$dispatch('open-privacy-document')" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Политика конфиденциальности</button>
+                            <button @click="$dispatch('open-personal-document')" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Согласие на обработку персональных данных</button>
+                            <button @click="$dispatch('open-politics-personal-data-document')" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Политика в отношении обработки персональных данных</button>
+                            <button @click="$dispatch('open-cookies-document')" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Согласие на обработку файлов cookies</button>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-y-2 items-start">
+                    <div class="font-bold text-xl text-white/35">Соцсети:</div>
+                    <div class="flex flex-col gap-y-2 items-start pl-1">
+                            <a href="https://vk.com/id524271904" target="_blank" class="text-xs hover:text-esta-accent transition-colors duration-300 w-10 h-10"><img src="{% static '/icons/vk.svg'%}" alt="Страница Вконтакте"/></a>
+                            <a href="#" class="text-xs hover:text-esta-accent transition-colors duration-300 w-10 h-10"><img src="{% static '/icons/max.png'%}" alt="Страница Мессенджер Макс"/></a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between md:gap-x-10 gap-y-4 items-end border-t border-white/25 pt-6 flex-wrap md:flex-nowrap">
+                <p class="text-white/25 text-xs text-left md:w-1/2 lg:w-1/3 md:shrink-0">
+                    Используя сайт, вы соглашаетесь с политиками и согласиями, размещёнными в разделе «Документы», в том числе с обработкой персональных данных и файлов cookie. Информация на сайте не является публичной офертой.
+                </p>
+                <div class="flex flex-col gap-y-4 justify-between w-full lg:flex-row lg:items-center">
+                    <p class="text-white/25 text-xs text-left cursor-default select-none md:shrink-0 lg:max-w-[280px]">{% now "Y" %} ЭСТА. Промышленное теплооборудование. Все права защищены.</p>
+                    <a href="https://t.me/Exe_bone" target="_blank" class="inline-flex md:shrink-1 items-center justify-center gap-1.5 rounded-full border border-[#27272a] bg-[#121214] px-3 py-1.5 text-xs transition-all duration-300 hover:border-bg-esta-accent/50 hover:bg-esta-accent/5 hover:text-white">Сайт разработал - <span class="font-medium text-esta-accent/50">DG-DEV</span></a>
+                    <a href="#" class="hidden lg:flex md:shrink-1 items-center gap-x-2 hover:text-white transition-colors duration-300 group">
+                        Наверх 
+                        <span class="flex items-center justify-center h-8 w-8 rounded-full bg-esta-accent/25 border border-color-border/25 group-hover:bg-esta-accent transition-colors duration-300">
+                            <svg class="w-6 h-6 text-text-muted group-hover:text-white rotate-180 transition-colors duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 3v17M5 13l7 7 7-7"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            
+            </div>
+        </div>
+        
+        
+    </footer>
+</body>
+</html>

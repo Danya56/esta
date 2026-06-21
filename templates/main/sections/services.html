@@ -1,0 +1,23 @@
+{% load static %}
+
+<section class="flex flex-col justify-center align-center gap-y-8">
+    <h2 class="font-bold text-center font-montserrat text-2xl">Наши услуги</h2>
+    <div class="grid grid-cols-1 gap-y-4 md:grid-cols-2 md:gap-x-4">
+        <img src="{% static '/icons/our_services.png' %}" alt='Наши услуги' class="w-full h-full object-cover rounded-xl">
+        <div class="bg-white flex flex-col items-start gap-y-8 border border-gray-200 h-full p-4 rounded-xl overflow-hidden">
+            <div class="my-auto">
+                <h3 class="font-bold">Пусконаладочные работы</h3>
+                <p class="text-text-muted">Мы не только продаём оборудование, но также производим монтаж, настройку и запуск.</p>
+            </div>
+            <div class="my-auto">
+                <h3 class="font-bold">Сервисное обслуживание</h3>
+                <p class="text-text-muted">Мы не только продаём оборудование, но также производим монтаж, настройку и запуск.</p>
+            </div>
+            <div class="my-auto">
+                <h3 class="font-bold">Продажа запчастей</h3>
+                <p class="text-text-muted">В основе добротного ремонта и стабильной работы любого оборудования находятся качественные составляющие, поэтому у нас всегда можно заказать оригинальные запчасти от производителя.</p>
+            </div>
+        </div>
+    </div>
+    
+</section>

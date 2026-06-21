@@ -1,0 +1,18 @@
+{% load static %}
+
+<section class=" relative w-full overflow-hidden bg-white rounded-xl py-4">
+    <div class="flex items-center gap-10 w-max animate-marquee">
+        {% for i in "123456"|make_list %}
+        <div class="w-[180px] h-[160px] flex justify-center align-center">
+             <img src="{% static './icons/brands/'|add:i|add:'.png' %}" alt="Бренд" class="w-full h-full object-contain" />
+        </div>
+        {% endfor %} 
+
+        {% for i in "123456"|make_list %}
+            <div class="w-[180px] h-[160px] flex justify-center align-center">
+                <img src="{% static './icons/brands/'|add:i|add:'.png' %}" alt="Бренд" class="w-full h-full object-contain" />
+            </div>
+        {% endfor %} 
+    </div>
+    
+</section>

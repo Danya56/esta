@@ -1,0 +1,55 @@
+<dialog
+    x-data 
+    @open-cookies-document.window="$el.showModal(); document.body.style.overflow = 'hidden'"
+    @close-cookies-document.window="$el.close(); document.body.style.overflow = ''"  
+    @click.self="$el.close()"
+    class="backdrop:backdrop-blur-md backdrop:bg-black/40 p-0 rounded-xl shadow-2xl w-full max-w-full sm:max-w-[85%] lg:max-w-[750px] max-h-[80vh] bg-white border border-gray-100"
+>
+    <div class="relative flex flex-col max-h-[80vh]">
+        
+        <div class="p-6 pb-4 border-b border-gray-100 pr-16 bg-gray-50/50 rounded-t-xl">
+            <h3 class="font-bold text-base md:text-lg font-montserrat tracking-tight uppercase">
+                Согласие на обработку файлов cookies
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">ООО «Компания «ЭСТА»</p>
+        </div>
+
+        <button type="button" @click="$el.closest('dialog').close(); document.body.style.overflow = ''" class="absolute top-4 right-4 w-10 h-10 text-esta-accent hover:text-text-esta-accent-hover focus:outline-none transition-colors duration-300 z-50">
+            <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M640.234 206.9C646.306 200.613 649.666 192.193 649.59 183.453C649.514 174.713 646.008 166.353 639.828 160.173C633.647 153.992 625.287 150.487 616.547 150.411C607.807 150.335 599.387 153.695 593.1 159.767L400 352.867L206.9 159.767C200.614 153.695 192.194 150.335 183.454 150.411C174.714 150.487 166.353 153.992 160.173 160.173C153.993 166.353 150.487 174.713 150.411 183.453C150.335 192.193 153.695 200.613 159.767 206.9L352.867 400L159.767 593.1C156.583 596.175 154.044 599.853 152.297 603.92C150.55 607.987 149.631 612.361 149.592 616.787C149.554 621.213 150.397 625.602 152.073 629.698C153.749 633.795 156.224 637.517 159.354 640.646C162.484 643.776 166.205 646.251 170.302 647.927C174.399 649.603 178.788 650.447 183.214 650.408C187.64 650.37 192.014 649.45 196.081 647.703C200.147 645.956 203.826 643.417 206.9 640.233L400 447.133L593.1 640.233C599.387 646.305 607.807 649.665 616.547 649.589C625.287 649.513 633.647 646.008 639.828 639.827C646.008 633.647 649.514 625.287 649.59 616.547C649.666 607.807 646.306 599.387 640.234 593.1L447.134 400L640.234 206.9Z" fill="currentColor"/>
+            </svg>
+        </button>
+
+        <div class="p-6 overflow-y-auto text-sm text-gray-600 space-y-5 leading-relaxed">
+            
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm mb-1">1. Что такое cookies</h4>
+                <p class="pl-2 border-l-2 border-gray-100">Файлы cookie — небольшие текстовые файлы, которые сохраняются в браузере при посещении Сайта. Они помогают запоминать настройки, обеспечивать работу функций и анализировать использование Сайта.</p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm mb-1">2. Какие cookies мы используем</h4>
+                <div class="pl-2 border-l-2 border-gray-100 space-y-1">
+                    <p>• <strong class="text-gray-800">Технические</strong> — для работы интерфейса и сохранения выбора пользователя (в том числе согласия на cookies);</p>
+                    <p>• <strong class="text-gray-800">Аналитические</strong> — счетчики Яндекс.Метрика для сбора обезличенной статистики посещений.</p>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm mb-1">3. Согласие на cookies</h4>
+                <p class="pl-2 border-l-2 border-gray-100">Продолжая пользоваться Сайтом и нажимая «Продолжаю» в баннере cookies, вы соглашаетесь на использование файлов cookie в описанных целях. Вы можете отключить cookies в настройках своего браузера, однако часть функций Сайта при этом может работать некорректно.</p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm mb-1">4. Управление cookies</h4>
+                <p class="pl-2 border-l-2 border-gray-100">Большинство современных браузеров позволяют полностью удалить или заблокировать сохранение cookies. Пошаговые инструкции доступны в справочном разделе вашего браузера. Отключение аналитических cookies никак не влияет на возможность беспрепятственного оформления заявки на Сайте.</p>
+            </div>
+
+            <div>
+                <h4 class="font-bold text-gray-900 text-sm mb-1">5. Связь с персональными данными</h4>
+                <p class="pl-2 border-l-2 border-gray-100">При использовании инструментов веб-аналитики могут обрабатываться обезличенные технические данные. Подробная информация о порядке обработки данных находится в нашей <button type="button" @click="$dispatch('open-personal-document')" class="text-blue-600 font-medium hover:underline focus:outline-none">Политике конфиденциальности</button>.</p>
+            </div>
+
+        </div>
+    </div>
+</dialog>

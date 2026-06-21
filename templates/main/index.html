@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+
+    {% include "./sections/hero.html" %}
+
+    {% include "./sections/calculator.html" %}
+
+    {% include "./sections/fuels.html" %}
+
+    {% include "./sections/applications.html" %}
+
+    {% include "./sections/advantages.html" %}
+
+    {% include "./sections/services.html" %}
+
+    {% include "./sections/works.html" %}
+
+    {% include "./sections/brands.html" %}
+
+    {% include "./sections/sertificates.html" %}
+
+    {% include 'modals/call_phone.html' %}
+
+    {% include 'toasts/toast.html' %}
+
+    {% include 'documents/proccessing_personal_data.html' %}
+    {% include 'documents/politics_personal_data.html' %}
+    {% include 'documents/agree_cookies.html' %}
+    {% include 'documents/privacy.html' %}
+</main>
+{% endblock %}

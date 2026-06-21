@@ -1,0 +1,113 @@
+<dialog
+    x-data 
+    @open-personal-document.window="$el.showModal(); document.body.style.overflow = 'hidden'"
+    @close-personal-document.window="$el.close(); document.body.style.overflow = ''"  
+    @click.self="$el.close()"
+    class="backdrop:backdrop-blur-md backdrop:bg-black/40 p-0 rounded-xl shadow-2xl w-full max-w-full sm:max-w-[90%] lg:max-w-[900px] maxHeight:max-h-[85vh] bg-white border border-gray-100"
+>
+    <div class="relative flex flex-col max-h-[85vh] md:max-h-[80vh]">
+        
+        <div class="p-6 pb-4 border-b border-gray-100 pr-16">
+            <h3 class="font-bold text-lg md:text-xl font-montserrat tracking-tight uppercase">
+                Согласие на обработку персональных данных
+            </h3>
+            <p class="text-xs text-gray-400 mt-1">ООО «Компания «ЭСТА»</p>
+        </div>
+
+        <button type="button" @click="$el.closest('dialog').close(); document.body.style.overflow = ''" class="absolute top-4 right-4 w-10 h-10 text-esta-accent hover:text-esta-accent-hover focus:outline-none transition-colors duration-300 z-50">
+            <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M640.234 206.9C646.306 200.613 649.666 192.193 649.59 183.453C649.514 174.713 646.008 166.353 639.828 160.173C633.647 153.992 625.287 150.487 616.547 150.411C607.807 150.335 599.387 153.695 593.1 159.767L400 352.867L206.9 159.767C200.614 153.695 192.194 150.335 183.454 150.411C174.714 150.487 166.353 153.992 160.173 160.173C153.993 166.353 150.487 174.713 150.411 183.453C150.335 192.193 153.695 200.613 159.767 206.9L352.867 400L159.767 593.1C156.583 596.175 154.044 599.853 152.297 603.92C150.55 607.987 149.631 612.361 149.592 616.787C149.554 621.213 150.397 625.602 152.073 629.698C153.749 633.795 156.224 637.517 159.354 640.646C162.484 643.776 166.205 646.251 170.302 647.927C174.399 649.603 178.788 650.447 183.214 650.408C187.64 650.37 192.014 649.45 196.081 647.703C200.147 645.956 203.826 643.417 206.9 640.233L400 447.133L593.1 640.233C599.387 646.305 607.807 649.665 616.547 649.589C625.287 649.513 633.647 646.008 639.828 639.827C646.008 633.647 649.514 625.287 649.59 616.547C649.666 607.807 646.306 599.387 640.234 593.1L447.134 400L640.234 206.9Z" fill="currentColor"/>
+            </svg>
+        </button>
+
+        <div class="p-6 overflow-y-auto text-sm md:text-base text-gray-600 space-y-4 leading-relaxed">
+            
+            <p>Пользователь, оставляя заявку на сайте <a href="https://esta56.ru" target="_blank" class="text-blue-600 hover:underline">esta56.ru</a>, даёт настоящее Согласие на обработку персональных данных (далее – Согласие).</p>
+            
+            <p>Действуя свободно, по своей воле и в своих интересах, а также подтверждая свою дееспособность, Пользователь дает свое согласие <strong>ООО «Компания «ЭСТА»</strong> (ОГРН: 1135658015954, ИНН: 5610154071, КПП: 560901001, юридический адрес: 460019, Оренбургская область, г. Оренбург, Шарлыкское ш., двлд. 14, офис 8) на обработку своих персональных данных со следующими условиями:</p>
+            
+            <p>1. Данное Согласие дается на обработку персональных данных как без использования средств автоматизации, так и с их использованием, в том числе с передачей по сети Интернет.</p>
+            
+            <p>2. Согласие дается на обработку следующих персональных данных: <strong>имя, номер телефона, адрес электронной почты, куки-файлы (cookies)</strong>.</p>
+            
+            <p>3. Цель обработки персональных данных: обработка входящих запросов и заявок Пользователей с целью предоставления консультаций, информирования об услугах, анализа пользовательского опыта для улучшения работы сайта, а также для последующего заключения и исполнения договоров об оказании услуг.</p>    
+            
+            <p>4. В ходе обработки персональных данных будут совершены следующие действия: сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передача (доступ, предоставление), блокирование, удаление, уничтожение.</p>
+            
+            <div class="mt-6 mb-6">
+                <h4 class="font-bold text-gray-800 mb-3 text-base">Перечень используемых cookie-файлов:</h4>
+                <div class="inline-block min-w-full align-middle border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+                    
+                    <table class="min-w-full divide-y divide-gray-200 hidden md:table">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Название</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Тип</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Срок действия</th>
+                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-700 uppercase">Описание</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200 text-xs text-gray-600">
+                            <tr>
+                                <td class="px-4 py-3 font-mono font-bold text-gray-900">_ym_uid</td>
+                                <td class="px-4 py-3">Аналитическая</td>
+                                <td class="px-4 py-3">1 год</td>
+                                <td class="px-4 py-3">Позволяет различать посетителей сайта.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-mono font-bold text-gray-900">_ym_d</td>
+                                <td class="px-4 py-3">Аналитическая</td>
+                                <td class="px-4 py-3">1 год</td>
+                                <td class="px-4 py-3">Хранит дату первого визита посетителя на сайт.</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-mono font-bold text-gray-900">_ym_isad</td>
+                                <td class="px-4 py-3">Техническая</td>
+                                <td class="px-4 py-3">2 дня</td>
+                                <td class="px-4 py-3">Определяет наличие у посетителя блокировщиков рекламы.</td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="px-4 py-3 font-mono font-bold text-gray-900">_ym_visorc_*</td>
+                                <td class="px-4 py-3">Аналитическая</td>
+                                <td class="px-4 py-3">30 минут</td>
+                                <td class="px-4 py-3">Используется для корректной работы Вебвизора Яндекс.Метрики.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="block md:hidden divide-y divide-gray-200 bg-white">
+                        <div class="p-4 space-y-1">
+                            <div class="flex justify-between"><span class="font-bold text-gray-900">_ym_uid</span><span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">Аналитическая</span></div>
+                            <p class="text-xs text-gray-500"><strong>Срок:</strong> 1 год</p>
+                            <p class="text-xs text-gray-700">Позволяет различать посетителей сайта.</p>
+                        </div>
+                        <div class="p-4 space-y-1 bg-gray-50">
+                            <div class="flex justify-between"><span class="font-bold text-gray-900">_ym_d</span><span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">Аналитическая</span></div>
+                            <p class="text-xs text-gray-500"><strong>Срок:</strong> 1 год</p>
+                            <p class="text-xs text-gray-700">Хранит дату первого визита посетителя на сайт.</p>
+                        </div>
+                        <div class="p-4 space-y-1">
+                            <div class="flex justify-between"><span class="font-bold text-gray-900">_ym_isad</span><span class="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded">Техническая</span></div>
+                            <p class="text-xs text-gray-500"><strong>Срок:</strong> 2 дня</p>
+                            <p class="text-xs text-gray-700">Определяет наличие у посетителя блокировщиков рекламы.</p>
+                        </div>
+                        <div class="p-4 space-y-1 bg-gray-50">
+                            <div class="flex justify-between"><span class="font-bold text-gray-900">_ym_visorc_*</span><span class="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded">Аналитическая</span></div>
+                            <p class="text-xs text-gray-500"><strong>Срок:</strong> 30 минут</p>
+                            <p class="text-xs text-gray-700">Используется для корректной работы Вебвизора.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <p>5. Срок обработки персональных данных: персональные данные обрабатываются до достижения целей их обработки, либо до момента отзыва Согласия Пользователем.</p>
+            
+            <p>6. Согласие может быть отозвано субъектом персональных данных или его представителем путем направления письменного заявления в ООО «Компания «ЭСТА» по адресу, указанному в начале настоящего Согласия, либо в формате электронного документа на адрес электронной почты: <a href="mailto:npoesta@bk.ru" class="text-blue-600 hover:underline">npoesta@bk.ru</a>.</p>
+            
+            <p>7. В случае отзыва субъектом согласия, ООО «Компания «ЭСТА» вправе продолжить обработку без него при наличии оснований, указанных в пунктах 2–11 части 1 статьи 6 Федерального закона № 152-ФЗ «О персональных данных».</p>
+            
+            <p>8. Настоящее Согласие действует все время до момента прекращения обработки персональных данных по основаниям, указанным в п. 5 и п. 6 настоящего Согласия.</p>
+        </div>
+    </div>
+</dialog>
