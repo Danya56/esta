@@ -1,7 +1,12 @@
 {% load static %}
 
 <section class="grid grid-cols-1 lg:grid-cols-2 pt-12 gap-4">
-    <div class="">
+    <div>
+        <nav class="text-xs text-text-muted mb-6">
+            <a href="/" class="hover:text-esta-accent transition">Главная</a> 
+            <span class="mx-2">/</span> 
+            <span class="text-text-main">О компании</span>
+        </nav>
         <h1 class="font-bold font-montserrat text-2xl tracking-tight">{{info_company.name}}</h1>
         <p class="pt-4">{{info_company.description}}</p>
         <ul class="font-semibold flex flex-col gap-y-1 items-start pt-4">

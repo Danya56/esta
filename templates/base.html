@@ -5,12 +5,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %} ЭСТА | Промышленное теплооборудование {% endblock%}</title>
+    
+    <title>{% block title %}ЭСТА | Промышленное теплооборудование в Оренбурге{% endblock %}</title>
+    <meta name="description" content="{% block description %}Теплогенераторы (подвесные и стационарные) с доставкой по всей России от официального дилера в г. Оренбург. Проектирование и монтаж систем отопления.{% endblock %}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta name="robots" content="index, follow">
+
+    <link rel="icon" type="image/png" href="{% static 'icons/favicon.png' %}">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        [x-cloak] { display: none !important; }
+        .htmx-indicator {
+            display: none;
+        }
+        .htmx-request .htmx-indicator, 
+        .htmx-request.htmx-indicator {
+            display: inline-block;
+        }
+        .htmx-request .htmx-indicator-inverse {
+            display: none;
+        }
+        .htmx-request #submit-btn {
+            pointer-events: none;
+            opacity: 0.6; 
+            cursor: not-allowed; 
+        }
+
+    </style>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -37,7 +63,7 @@
                         roboto: ['Roboto', 'sans-serif']
                     },
                     animation : {
-                        'marquee': 'marquee 45s linear infinite',
+                        'marquee': 'marquee 30s linear infinite',
                     },
                     keyframes: {
                         marquee: {
@@ -49,14 +75,28 @@
             }
         }
     </script>
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-    <style>
-        [x-cloak] { 
-            display: none !important; 
-        }
-    </style>
+    <script defer src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ЭСТА",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'icons/favicon.png' %}",
+      "description": "Официальный дилер промышленного теплооборудования в Оренбурге и РФ",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Оренбург",
+        "addressRegion": "Оренбургская область",
+        "addressCountry": "RU"
+      }
+    }
+    </script>
+    
+    {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50 text-base text-text-main font-roboto scrollbar-gutter-stable" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
     <header 
@@ -72,20 +112,20 @@
             </a>
 
             <nav class="hidden md:flex lg:gap-x-4 md:justify-between font-medium items-center">
-                <a href="#" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Оборудование</a>
                 <a href="{% url 'main_index' %}#application-section" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Сферы применения</a>
                 <a href="/about/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">О компании</a>
+                 <a href="/delivery/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Доставка</a>
                 <a href="/blog/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Блог</a>
             </nav>
             <div class="flex flex-wrap justify-center items-center lg:space-x-6">
-                <a href="tel:+73532577073" class="hidden lg:block hover:text-esta-accent font-bold transition">+7 (3532)-577-073</a>
+                <a href="tel:+73532577073" class="hidden lg:block lg:flex lg:flex-col hover:text-esta-accent font-bold transition">+7 (3532)-577-073<span class="text-center text-xs">Работаем по России и СНГ</span></a>
                 <button @click="$dispatch('open-callback')" class="text-xs md:text-base bg-esta-accent hover:bg-esta-accent-hover text-white font-bold px-4 lg:px-6 py-3 rounded transition">
                     Заказать звонок
                 </button>
             </div>
 
             <button id="menu-btn-open" @click="isOpen = !isOpen" class="md:hidden flex justify-center items-center w-12 h-12 focus:outline-none">
-                <svg class="text-esta-accent w-full h-full" viewBox="0 0 800 800" fill="none" stroke="currentColor" xmlns="http://w3.org">
+                <svg class="text-esta-accent w-full h-full" viewBox="0 0 800 800" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path d="M133.333 600H666.666" stroke-width="66.6667" stroke-linecap="round"/>
                     <path d="M133.333 400H666.666" stroke-width="66.6667" stroke-linecap="round"/>
                     <path d="M133.333 200H666.666" stroke-width="66.6667" stroke-linecap="round"/>
@@ -98,8 +138,8 @@
                     </svg>
                 </button>
                 <nav class="flex flex-col gap-y-2 text-white text-2xl justify-between font-medium items-end">
-                    <a href="#" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Оборудование</a>
                     <a href="{% url 'main_index' %}#application-section" @click="isOpen=false" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Сферы применения</a>
+                    <a href="/delivery/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Доставка</a>
                     <a href="/about/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">О компании</a>
                     <a href="/blog/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Блог</a>
                     <a href="tel:+73532577073" class="pt-12 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">+7 (3532)-577-073</a>
@@ -118,8 +158,9 @@
                 <div class="flex flex-col gap-y-2 items-start">
                     <div class="font-bold text-xl text-white/35">Информация</div>
                     <nav class="flex flex-col gap-y-2 items-start pl-1">
+                            <a href="/delivery/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Доставка</a>
                             <a href="/about/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">О компании</a>
-                            <a href="#" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Доставка</a>
+                            <a href="/delivery/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Доставка</a>
                             <a href="/blog/" class="text-xs text-left hover:text-esta-accent transition-colors duration-300">Блог</a>
                     </nav>
                 </div>
@@ -170,5 +211,8 @@
         
         
     </footer>
+
+
+    {% include 'includes/yandex_metrika.html' %}
 </body>
 </html>

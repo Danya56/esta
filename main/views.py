@@ -62,6 +62,13 @@ def calc_request(request: HttpRequest) -> HttpResponse:
                         *Сначала примите согласие
                     </div>
                 </div>
+                <div id="loading-spinner" class="htmx-indicator flex items-center justify-center gap-2 mt-4 text-gray-600">
+                    <svg class="animate-spin h-5 w-5 text-esta-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Отправляем данные, пожалуйста, подождите...</span>
+                </div>
             </form>
         </div>
         """
@@ -139,16 +146,17 @@ def callback_submit(request: HttpRequest) -> HttpResponse:
                     <p>Мы скоро свяжемся с вами.</p>
                 </div>
             """)
+        else:
+            response = HttpResponse(status=204)
 
-            client_data = {
+        client_data = {
                 'name': name,
                 'phone': phone,
                 'email': email,
                 'message': user_comment
             }
-            send_client_email(client_data)
-        else:
-            response = HttpResponse(status=204)
+        
+        send_client_email(client_data)
 
         response['HX-Trigger'] = json.dumps({
             "show-toast": {"text": "Спасибо, мы скоро вам перезвоним!"}
@@ -165,3 +173,6 @@ def about_index(request: HttpRequest) -> HttpResponse:
     }
     
     return render(request, 'about/index.html', context)
+
+def delivery_index(request: HttpRequest) -> HttpResponse:
+    return render(request, 'delivery/index.html')

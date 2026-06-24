@@ -20,6 +20,7 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, related_name="articles", blank=True, verbose_name="Теги статьи")
     is_active = models.BooleanField(default=True, verbose_name="Отображается на сайте")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
 
     class Meta:
         verbose_name = "Статья в блоге"

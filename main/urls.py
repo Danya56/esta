@@ -5,5 +5,6 @@ urlpatterns = [
     path('', views.index, name='main_index'),
     path('about/', views.about_index, name="about_index"),
     path('calc-request/', views.calc_request, name='calc_request'),
-    path('callback-submit', views.callback_submit, name='callback_submit')
+    path('callback-submit', views.callback_submit, name='callback_submit'),
+    path('delivery/', views.delivery_index, name="delivery_index"),
 ]

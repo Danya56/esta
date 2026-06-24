@@ -10,10 +10,11 @@
     <div id="modalContent" class="relative flex flex-col w-full lg:w-[500px] p-4">
         <h3 class="text-center text-xl lg:text-2xl font-montserrat font-bold uppercase tracking-tight">Заказать звонок</h3>
         <p class="text-xs text-text-muted mb-6 text-center">Оставьте телефон, наш специалист свяжется с вами в ближайшее время</p>
-        <form 
+        
+        <form id="callbackForm" 
             hx-post="{% url 'callback_submit' %}" 
             hx-swap="none" 
-            hx-on::after-request="if(event.detail.successful) document.getElementById('callbackDialog').close()"
+            hx-indicator="#submit-btn"
             class="w-full">
             {% csrf_token %}
             <div class="flex flex-col gap-y-4">
@@ -25,30 +26,59 @@
                     class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors" required>
                 <textarea name="comment" placeholder="Ваш комментарий"
                     class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors h-[100px] max-h-[300px]"></textarea>
+                
                 <div x-data="{agree: false}" class="flex flex-col relative">
                     <label class="flex gap-x-2 items-center text-sm">
                         <input type="checkbox" x-model="agree"><span class="cursor-pointer underline" @click="$dispatch('open-personal-document')">Согласие на обработку персональных данных</span>
                     </label>
+                    
                     <button type="submit"
                             :disabled="!agree"
+                            id="submit-btn"
                             class="flex gap-x-2 items-center justify-center bg-esta-accent text-white px-4 py-4 rounded text-sm font-bold hover:bg-esta-accent-hover transition mt-6 disabled:opacity-40 disabled:cursor-not-allowed">
-                        <svg width="20" height="20" viewBox="0 0 23 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        
+                        <svg width="20" height="20" viewBox="0 0 23 35" fill="none" xmlns="http://www.w3.org/2000/svg" class="htmx-indicator-inverse">
                             <path d="M10.8951 32.0667C11.9158 33.4142 13.3696 34.3689 15.0117 34.7702C16.6538 35.1715 18.384 34.9948 19.9111 34.27L21.2335 33.6706C21.8199 33.389 22.2729 32.889 22.4954 32.2777C22.7179 31.6664 22.6923 30.9923 22.4241 30.3996L19.7771 24.7974C19.4985 24.2135 19.0018 23.7624 18.3939 23.5411C17.7861 23.3199 17.1156 23.3462 16.5269 23.6144C15.9339 23.8832 15.2591 23.909 14.6473 23.6863C14.0355 23.4636 13.5352 23.0101 13.2537 22.423L9.11921 13.5566C8.98014 13.2638 8.90065 12.9463 8.88535 12.6226C8.87005 12.2988 8.91926 11.9753 9.03011 11.6707C9.14096 11.3662 9.31124 11.0867 9.53106 10.8485C9.75087 10.6104 10.0158 10.4183 10.3105 10.2834C10.8944 10.0048 11.3455 9.5081 11.5668 8.9002C11.788 8.29231 11.7617 7.62184 11.4935 7.03314L8.87237 1.41202C8.59074 0.825572 8.09077 0.37264 7.47944 0.150134C6.86812 -0.0723713 6.19398 -0.046777 5.60128 0.22144L4.29215 0.8492C2.75587 1.55313 1.50877 2.7645 0.760493 4.27968C0.0122152 5.79485 -0.191618 7.52145 0.183258 9.16921C2.2627 17.4144 5.89852 25.1863 10.8951 32.0667Z" fill="currentColor"/>
                         </svg>
-                        Позвоните мне
+                        <svg id="btn-spinner" class="htmx-indicator animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+
+                        <span id="btn-text">Позвоните мне</span>
                     </button>
-                    <div x-show="!agree" 
-                        class="text-xs absolute -bottom-4">
+                    
+                    <div x-show="!agree" class="text-xs absolute -bottom-4 text-red-500">
                         *Сначала примите согласие
                     </div>
                 </div>
             </div>
-            <button type="button" @click="$el.closest('dialog').close()" class="absolute -top-5 -right-4 w-10 h-10 text-esta-accent hover:text-esta-accent-hover focus:outline-none focus-visible:text-esta-accent transition-colors duration-300">
+            
+            <button type="button" @click="$el.closest('dialog').close()" class="absolute -top-5 -right-4 w-10 h-10 text-esta-accent hover:text-esta-accent-hover focus:outline-none">
                 <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd" d="M640.234 206.9C646.306 200.613 649.666 192.193 649.59 183.453C649.514 174.713 646.008 166.353 639.828 160.173C633.647 153.992 625.287 150.487 616.547 150.411C607.807 150.335 599.387 153.695 593.1 159.767L400 352.867L206.9 159.767C200.614 153.695 192.194 150.335 183.454 150.411C174.714 150.487 166.353 153.992 160.173 160.173C153.993 166.353 150.487 174.713 150.411 183.453C150.335 192.193 153.695 200.613 159.767 206.9L352.867 400L159.767 593.1C156.583 596.175 154.044 599.853 152.297 603.92C150.55 607.987 149.631 612.361 149.592 616.787C149.554 621.213 150.397 625.602 152.073 629.698C153.749 633.795 156.224 637.517 159.354 640.646C162.484 643.776 166.205 646.251 170.302 647.927C174.399 649.603 178.788 650.447 183.214 650.408C187.64 650.37 192.014 649.45 196.081 647.703C200.147 645.956 203.826 643.417 206.9 640.233L400 447.133L593.1 640.233C599.387 646.305 607.807 649.665 616.547 649.589C625.287 649.513 633.647 646.008 639.828 639.827C646.008 633.647 649.514 625.287 649.59 616.547C649.666 607.807 646.306 599.387 640.234 593.1L447.134 400L640.234 206.9Z" fill="currentColor" stroke="currentColor"/>
                 </svg>
             </button>
-            
         </form>
     </div>
+
+    <script>
+        document.body.addEventListener('htmx:afterRequest', function(evt) {
+            if (evt.target && evt.target.id === 'callbackForm') {
+                if (evt.detail.successful) {
+                    
+                    const btnText = document.getElementById('btn-text');
+                    if (btnText) btnText.innerText = 'Отправлено!';
+                    
+                    setTimeout(() => {
+                        window.dispatchEvent(new CustomEvent('close-callback'));
+                        
+                        evt.target.reset();
+                        
+                        if (btnText) btnText.innerText = 'Позвоните мне';
+                    }, 500);
+                }
+            }
+        });
+    </script>
 </dialog>

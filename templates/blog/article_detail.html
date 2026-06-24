@@ -36,6 +36,16 @@
         {{ article.text|safe }}
 
       </div>
+      
+      <div class="bg-bg-section p-6 rounded-lg border border-color-border mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h3 class="font-bold text-text-main text-lg">Появились вопросы или нужен теплогенератор?</h3>
+                <p class="text-sm">Оставьте заявку, и наш менеджер рассчитает стоимость для вашего объекта.</p>
+            </div>
+            <button @click="$dispatch('open-callback')" class="bg-esta-accent hover:bg-esta-accent-hover text-white font-bold px-6 py-3 rounded transition shrink-0">
+                Рассчитать стоимость
+            </button>
+        </div>
 
       <footer class="mt-12 pt-6 border-t border-gray-200 flex flex-wrap justify-between items-center gap-4">
         <div class="text-sm text-gray-500">
