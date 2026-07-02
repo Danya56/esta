@@ -35,7 +35,22 @@ class Attribute(models.Model):
     
     def __str__(self) -> str:
         return f"{self.category.name} - {self.name}"
+
+class Brand(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Наименование бренда")
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    image = models.ImageField(upload_to="brand/gallery", verbose_name="Изображение")
     
+    class Meta:
+        verbose_name = "Бренд"
+        verbose_name_plural = "Бренды"
+        ordering = ['name']
+    
+    def save(self, *args, **kwargs) -> None:
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 class Product(models.Model):
     name = models.CharField(
         max_length=255,
