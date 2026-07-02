@@ -18,3 +18,21 @@ class Category(models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+
+class Attribute(models.Model):
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.CASCADE, 
+        related_name='attributes', 
+        verbose_name="Категория"
+    )
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ('category', 'name')
+        verbose_name = "Атрибут"
+        verbose_name_plural = "Атрибуты"
+    
+    def __str__(self) -> str:
+        return f"{self.category.name} - {self.name}"
+    
