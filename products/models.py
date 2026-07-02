@@ -68,6 +68,15 @@ class Product(models.Model):
         related_name='products',
         verbose_name="Категория товара"
     )
+
+    brand = models.ForeignKey(
+        Brand,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='products',
+        verbose_name='Бренд'
+    )
     
     description = models.TextField(verbose_name="Описание товара")
     
