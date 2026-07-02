@@ -112,4 +112,22 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
     
+class Image(models.Model):
+    product = models.ForeignKey(
+        Product,
+        on_delete=models.CASCADE,
+        related_name="images",
+        verbose_name="Товар"
+    )
+
+    image = models.ImageField(upload_to='product/gallery', verbose_name="Изображение")
+
+    position = models.PositiveIntegerField(default=0, verbose_name="Порядок фотографии")
+
+    class Meta:
+        verbose_name = "Изображение товара"
+        verbose_name = "Изображения товаров"
+        ordering = ['position']
     
+    def __str__(self) -> str:
+       return f"Изображение для товара - {self.product.name}"
