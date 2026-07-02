@@ -36,3 +36,56 @@ class Attribute(models.Model):
     def __str__(self) -> str:
         return f"{self.category.name} - {self.name}"
     
+class Product(models.Model):
+    name = models.CharField(
+        max_length=255,
+        unique=True,
+        verbose_name="Наименование товара"
+    )
+    sku = models.CharField(
+        max_length=100, 
+        unique=True, 
+        verbose_name="Артикул товара"
+    )
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.PROTECT,
+        related_name='products',
+        verbose_name="Категория товара"
+    )
+    
+    description = models.TextField(verbose_name="Описание товара")
+    
+    product_length = models.DecimalField(
+        decimal_places=2, 
+        max_digits=6, 
+        blank=True, 
+        null=True, 
+        verbose_name="Длина товара (см)"
+    )
+    product_width = models.DecimalField(
+        decimal_places=2, 
+        max_digits=6, 
+        blank=True, 
+        null=True, 
+        verbose_name="Ширина товара (см)"
+    )
+    product_height = models.DecimalField(
+        decimal_places=2, 
+        max_digits=6, 
+        blank=True, 
+        null=True, 
+        verbose_name="Высота товара (см)"
+    )
+    product_weight = models.DecimalField(
+        decimal_places=2, 
+        max_digits=6, 
+        blank=True, 
+        null=True, 
+        verbose_name="Вес товара (см)"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
+    
+    
