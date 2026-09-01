@@ -17,6 +17,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     path('', include('main.urls')),
     path('blog/', include('blog.urls')),
+    path('products/', include('products.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path('robots.txt', RedirectView.as_view(url=settings.STATIC_URL + 'robots.txt', permanent=True)),
     path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'icons/favicon.png', permanent=True)),

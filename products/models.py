@@ -1,23 +1,21 @@
-from typing import Iterable
 from django.db import models
 from pytils.translit import slugify
 
 class Category(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255, unique=True, verbose_name="Наименование")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    
-
+    image = models.ImageField(upload_to='category/gallery', blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
     
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+    
+    def __str__(self) -> str:
+        return self.name
 
 class Attribute(models.Model):
     category = models.ForeignKey(
@@ -27,14 +25,34 @@ class Attribute(models.Model):
         verbose_name="Категория"
     )
     name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True)
 
     class Meta:
-        unique_together = ('category', 'name')
+        unique_together = ('category', 'name', 'slug')
         verbose_name = "Атрибут"
         verbose_name_plural = "Атрибуты"
     
     def __str__(self) -> str:
-        return f"{self.category.name} - {self.name}"
+        return f"{self.name}"
+
+class ProductValue(models.Model):
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='attribute_values',
+        verbose_name="Товар"
+    )
+
+    attribute = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        verbose_name="Наименование атрибута",
+    )
+
+    value = models.CharField(max_length=255, verbose_name="Значение")
+
+    class Meta:
+        unique_together = ('product', 'attribute')
 
 class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Наименование бренда")
