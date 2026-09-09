@@ -4,7 +4,20 @@ from pytils.translit import slugify
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True, verbose_name="Наименование")
     slug = models.SlugField(max_length=255, unique=True, blank=True)
-    image = models.ImageField(upload_to='category/gallery', blank=True)
+    image = models.ImageField(upload_to='category/gallery', blank=True, verbose_name="Изображение")
+
+    description = models.TextField(null=True, blank=True, verbose_name="Описание")
+    short_description = models.TextField(max_length=500, null=True, blank=True, verbose_name="Краткое описание")
+
+    parent = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="children",
+        verbose_name="Родительская категория"
+    )
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
