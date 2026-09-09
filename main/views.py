@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.middleware.csrf import get_token
 from .models import Slide, Sertificate, CallbackRequest, Company
+from products.models import Category
 from .services import send_client_email
 from django.http import HttpResponse, HttpRequest
 from django_ratelimit.decorators import ratelimit
@@ -10,10 +11,13 @@ import json
 def index(request: HttpRequest) -> HttpResponse:
     slides = Slide.objects.filter(is_active=True)
     certificates = Sertificate.objects.filter(is_active=True)
+    categories = Category.objects.filter(parent__isnull=True).prefetch_related("children")
     context = {
         'slides': slides.reverse(),
         'certificates': certificates.reverse(),
+        'categories': categories
     }
+
     return render(request, 'main/index.html', context)
 
 def calc_request(request: HttpRequest) -> HttpResponse:
