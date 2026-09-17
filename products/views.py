@@ -41,60 +41,40 @@ def category_detail(request, slug):
     # Получаем значения характеристик товаров
     # ---------------------------------------------------------
 
-    product_ids = list(products.values_list('id', flat=True))
+    category_attrs = list(
+        CategoryAttribute.objects
+        .filter(category=category)
+        .select_related('attribute')
+    )
+
+    product_ids = [p.id for p in products]
 
     values_map = {}
     used_attr_ids = set()
-
     if product_ids:
-        product_values = (
-            ProductValue.objects
-            .filter(product_id__in=product_ids)
-            .only(
-                'product_id',
-                'attribute_id',
-                'value',
-            )
-        )
-
-        for pv in product_values:
-            values_map.setdefault(
-                pv.product_id,
-                {}
-            )[pv.attribute_id] = pv.value
-
+        for pv in ProductValue.objects.filter(product_id__in=product_ids).only(
+            'product_id', 'attribute_id', 'value'
+        ):
+            values_map.setdefault(pv.product_id, {})[pv.attribute_id] = pv.value
             if pv.value and pv.value.strip():
                 used_attr_ids.add(pv.attribute_id)
 
-    # Характеристики, которые реально используются
     category_attrs = [
-        ca
-        for ca in (
-            CategoryAttribute.objects
-            .filter(category=category)
-            .select_related('attribute')
-        )
-        if ca.attribute_id in used_attr_ids
+        ca for ca in CategoryAttribute.objects
+        .filter(category=category)
+        .select_related('attribute')
+        if ca.pk in used_attr_ids
     ][:5]
-
-    # ---------------------------------------------------------
-    # Формируем товары
-    # ---------------------------------------------------------
 
     products_data = [
         {
-            'obj': product,
+            'obj': p,
             'cells': [
-                (
-                    attr,
-                    values_map
-                    .get(product.id, {})
-                    .get(attr.attribute_id, '')
-                )
+                (attr, values_map.get(p.id, {}).get(attr.id, ''))
                 for attr in category_attrs
             ],
         }
-        for product in products
+        for p in products
     ]
 
     # ---------------------------------------------------------
@@ -124,6 +104,7 @@ def category_detail(request, slug):
         'products_data': products_data,
         'brands': brands,
 
+        # Новая структура
         'brands_data': brands_data,
     }
 
