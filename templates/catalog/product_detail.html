@@ -30,165 +30,145 @@
     </div>
 
     {# Карточка товара: галерея + ключевая информация #}
-    <section class="flex flex-col gap-4">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-10">
 
-        {% for data in brands_data %}
-
-            <div x-data class="w-full overflow-x-auto">
-
-                {# ===================================================== #}
-                {# DESKTOP / TABLET                                     #}
-                {# ===================================================== #}
-
-                <table class="hidden md:table w-full border-collapse">
-
-                    {# Название бренда #}
-                    <caption class="mb-4">
-                        <a
-                            class="text-esta-accent font-bold uppercase underline"
-                            href="{% url 'brand_detail' category_slug=category.slug brand_slug=data.obj.slug %}"
-                        >
-                            {{ data.obj.name }}
-                        </a>
-                    </caption>
-
-                    <thead>
-                        <tr>
-
-                            <th class="border p-2 bg-gray-100 text-center">
-                                Наименование оборудования
-                            </th>
-
-                            {% for attr in category_attrs %}
-                                <th class="border p-2 bg-gray-100 text-center">
-                                    {{ attr.attribute.name }}
-                                </th>
+        {# Галерея #}
+        <div>
+            {% with images=product.images.all %}
+                {% if images %}
+                    <div x-data="{ active: 0 }" class="flex flex-col gap-3">
+                        {# Основная картинка #}
+                        <div class="aspect-square bg-gray-100 rounded-xl overflow-hidden">
+                            {% for img in images %}
+                                <img x-show="active === {{ forloop.counter0 }}"
+                                     src="{{ img.image.url }}"
+                                     alt="{{ product.name }}"
+                                     class="w-full h-full object-contain p-4">
                             {% endfor %}
-
-                            <th class="border p-2 bg-gray-100 text-center">
-                            </th>
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-
-                        {% for row in data.products %}
-
-                            <tr>
-
-                                {# Название товара #}
-                                <td class="border p-2 font-medium">
-
-                                    <a
-                                        href="{% url 'product_detail' slug=row.obj.slug %}"
-                                        class="text-esta-accent hover:underline"
-                                    >
-                                        {{ row.obj.name }}
-                                    </a>
-
-                                </td>
-
-                                {# Характеристики #}
-                                {% for attr, value in row.cells %}
-
-                                    <td class="border p-2 text-center">
-                                        {{ value|default:"—" }}
-                                    </td>
-
-                                {% endfor %}
-
-                                {# Кнопка #}
-                                <td class="border p-2 text-center">
-
-                                    <button
-                                        type="button"
-                                        @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
-                                        class="bg-esta-accent text-white px-3 py-2 rounded w-full md:w-auto"
-                                    >
-                                        Получить информацию
-                                    </button>
-
-                                </td>
-
-                            </tr>
-
-                        {% endfor %}
-
-                    </tbody>
-
-                </table>
-
-
-                {# ===================================================== #}
-                {# MOBILE                                                #}
-                {# ===================================================== #}
-
-                <div class="md:hidden space-y-4">
-
-                    {% for row in data.products %}
-
-                        <div class="border rounded-lg p-4 bg-white shadow-sm">
-
-                            {# Название товара #}
-                            <div class="font-semibold text-lg mb-2">
-
-                                <a
-                                    href="{% url 'product_detail' slug=row.obj.slug %}"
-                                    class="text-esta-accent hover:underline"
-                                >
-                                    {{ row.obj.name }}
-                                </a>
-
-                            </div>
-
-
-                            {# Характеристики #}
-                            <div class="space-y-1 text-sm mb-3">
-
-                                {% for attr, value in row.cells %}
-
-                                    {% if value %}
-
-                                        <div class="flex justify-between gap-4 border-b border-gray-100 py-1">
-
-                                            <span class="text-gray-500">
-                                                {{ attr.attribute.name }}
-                                            </span>
-
-                                            <span class="font-medium text-right">
-                                                {{ value }}
-                                            </span>
-
-                                        </div>
-
-                                    {% endif %}
-
-                                {% endfor %}
-
-                            </div>
-
-
-                            {# Кнопка #}
-                            <button
-                                type="button"
-                                @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
-                                class="bg-esta-accent text-white px-3 py-2 rounded w-full"
-                            >
-                                Получить информацию
-                            </button>
-
                         </div>
 
-                    {% endfor %}
+                        {# Превьюшки, если больше одной #}
+                        {% if images|length > 1 %}
+                            <div class="flex gap-2 overflow-x-auto">
+                                {% for img in images %}
+                                    <button type="button"
+                                            @click="active = {{ forloop.counter0 }}"
+                                            :class="active === {{ forloop.counter0 }}
+                                                    ? 'border-esta-accent'
+                                                    : 'border-transparent'"
+                                            class="w-16 h-16 sm:w-20 sm:h-20 shrink-0
+                                                   border-2 rounded-lg overflow-hidden
+                                                   bg-gray-100 transition">
+                                        <img src="{{ img.image.url }}"
+                                             alt=""
+                                             class="w-full h-full object-contain p-1">
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center
+                                text-gray-400 text-sm">
+                        Нет изображений
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
 
+        {# Ключевая информация + действия #}
+        <div class="flex flex-col gap-4">
+            {% if product.brand %}
+                <div class="text-sm text-gray-500">
+                    Бренд:
+                    <a href="{% url 'brand_detail' category_slug=category.slug brand_slug=product.brand.slug %}"
+                       class="text-esta-accent hover:underline">
+                        {{ product.brand.name }}
+                    </a>
                 </div>
+            {% endif %}
 
+            {% if product.sku %}
+                <div class="text-sm text-gray-500">
+                    Артикул: <span class="text-gray-800 font-medium">{{ product.sku }}</span>
+                </div>
+            {% endif %}
+
+            {# Габариты одним блоком — если есть хоть одно #}
+            {% if product.product_length or product.product_width or product.product_height or product.product_weight %}
+                <div class="mt-2 grid grid-cols-2 gap-3">
+                    {% if product.product_length %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Длина</div>
+                            <div class="font-semibold">{{ product.product_length }} мм</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_width %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Ширина</div>
+                            <div class="font-semibold">{{ product.product_width }} мм</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_height %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Высота</div>
+                            <div class="font-semibold">{{ product.product_height }} мм</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_weight %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Вес</div>
+                            <div class="font-semibold">{{ product.product_weight }} кг</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="mt-2 flex flex-col sm:flex-row gap-3">
+                <button type="button"
+                        x-data
+                        @click="$store.callback.open('{{ product.name|escapejs }}');"
+                        class="flex-1 bg-esta-accent hover:bg-esta-accent-hover
+                               text-white font-bold py-3 px-4 rounded
+                               uppercase tracking-wider transition text-center">
+                    Получить информацию
+                </button>
             </div>
-
-        {% endfor %}
-
+        </div>
     </section>
+
+    {# Описание #}
+    {% if product.description %}
+        <section class="mb-10">
+            <h2 class="text-xl md:text-2xl font-semibold mb-3">Описание</h2>
+            <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                {{ product.description|safe }}
+            </div>
+        </section>
+    {% endif %}
+
+    {# Технические характеристики #}
+    {% if specs %}
+        <section class="mb-10">
+            <h2 class="text-xl md:text-2xl font-semibold mb-3">Технические характеристики</h2>
+            <div class="border rounded-lg overflow-hidden">
+                <table class="w-full border-collapse">
+                    <tbody>
+                        {% for attr, value in specs %}
+                            <tr class="{% cycle 'bg-white' 'bg-gray-50' %}">
+                                <th class="text-left font-medium text-gray-700 p-3 border-b border-gray-100 w-1/2 sm:w-2/5">
+                                    {{ attr.attribute.name }}
+                                </th>
+                                <td class="p-3 border-b border-gray-100 text-gray-900">
+                                    {{ value }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% endif %}
 
     {# Назад в категорию #}
     <div class="mb-8">

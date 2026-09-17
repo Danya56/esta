@@ -94,75 +94,164 @@
 
     {# Модельный ряд #}
     {% if products_data %}
-        <section class="flex flex-col gap-4">
+       <section class="flex flex-col gap-4">
+
             {% for data in brands_data %}
-            <div x-data class="w-full overflow-x-auto">
-                {# Desktop / Tablet #}
-                <table class="hidden md:table w-full border-collapse">
-                    <caption class="mb-4"><a class="text-esta-accent font-bold uppercase underline" href="{% url 'brand_detail' category_slug=category.slug brand_slug=data.obj.slug %}">{{data.obj.name}}</a></caption>
-                    <thead>
-                        <tr>
-                            <th class="border p-2 bg-gray-100 text-center">Наименование оборудования</th>
-                            {% for attr in category_attrs %}
-                                <th class="border p-2 bg-gray-100 text-center">{{ attr.attribute.name }}</th>
-                            {% endfor %}
-                            <th class="border p-2 bg-gray-100 text-center"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in data.products %}
+
+                <div x-data class="w-full overflow-x-auto">
+
+                    {# ===================================================== #}
+                    {# DESKTOP / TABLET                                     #}
+                    {# ===================================================== #}
+
+                    <table class="hidden md:table w-full border-collapse">
+
+                        {# Название бренда #}
+                        <caption class="mb-4">
+                            <a
+                                class="text-esta-accent font-bold uppercase underline"
+                                href="{% url 'brand_detail' category_slug=category.slug brand_slug=data.obj.slug %}"
+                            >
+                                {{ data.obj.name }}
+                            </a>
+                        </caption>
+
+                        <thead>
                             <tr>
-                                <td class="border p-2 font-medium">
-                                    <a href="{% url 'product_detail' slug=row.obj.slug %}"
-                                    class="text-esta-accent hover:underline">
+
+                                <th class="border p-2 bg-gray-100 text-center">
+                                    Наименование оборудования
+                                </th>
+
+                                {% for attr in category_attrs %}
+                                    <th class="border p-2 bg-gray-100 text-center">
+                                        {{ attr.attribute.name }}
+                                    </th>
+                                {% endfor %}
+
+                                <th class="border p-2 bg-gray-100 text-center">
+                                </th>
+
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for row in data.products %}
+
+                                <tr>
+
+                                    {# Название товара #}
+                                    <td class="border p-2 font-medium">
+
+                                        <a
+                                            href="{% url 'product_detail' slug=row.obj.slug %}"
+                                            class="text-esta-accent hover:underline"
+                                        >
+                                            {{ row.obj.name }}
+                                        </a>
+
+                                    </td>
+
+                                    {# Характеристики #}
+                                    {% for attr, value in row.cells %}
+
+                                        <td class="border p-2 text-center">
+                                            {{ value|default:"—" }}
+                                        </td>
+
+                                    {% endfor %}
+
+                                    {# Кнопка #}
+                                    <td class="border p-2 text-center">
+
+                                        <button
+                                            type="button"
+                                            @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
+                                            class="bg-esta-accent text-white px-3 py-2 rounded w-full md:w-auto"
+                                        >
+                                            Получить информацию
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+
+                    {# ===================================================== #}
+                    {# MOBILE                                                #}
+                    {# ===================================================== #}
+
+                    <div class="md:hidden space-y-4">
+
+                        {% for row in data.products %}
+
+                            <div class="border rounded-lg p-4 bg-white shadow-sm">
+
+                                {# Название товара #}
+                                <div class="font-semibold text-lg mb-2">
+
+                                    <a
+                                        href="{% url 'product_detail' slug=row.obj.slug %}"
+                                        class="text-esta-accent hover:underline"
+                                    >
                                         {{ row.obj.name }}
                                     </a>
-                                </td>
-                                {% for attr, value in row.cells %}
-                                    <td class="border p-2 text-center">{{ value|default:"—" }}</td>
-                                {% endfor %}
-                                <td class="border p-2 text-center">
-                                    <button type="button"
-                                            @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
-                                            class="bg-esta-accent text-white px-3 py-2 rounded w-full md:w-auto">
-                                        Получить информацию
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
 
-                {# Mobile #}
-                <div class="md:hidden space-y-4">
-                    {% for row in products_data %}
-                        <div class="border rounded-lg p-4 bg-white shadow-sm">
-                            <div class="font-semibold text-lg mb-2">
-                                <a href="{% url 'product_detail' slug=row.obj.slug %}"
-                                class="text-esta-accent hover:underline">
-                                    {{ row.obj.name }}
-                                </a>
-                            </div>
-                            <div class="space-y-1 text-sm mb-3">
-                                {% for attr, value in row.cells %}
-                                    {% if value %}
-                                        <div class="flex justify-between gap-4 border-b border-gray-100 py-1">
-                                            <span class="text-gray-500">{{ attr.attribute.name }}</span>
-                                            <span class="font-medium text-right">{{ value }}</span>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            <button type="button"
+                                </div>
+
+
+                                {# Характеристики #}
+                                <div class="space-y-1 text-sm mb-3">
+
+                                    {% for attr, value in row.cells %}
+
+                                        {% if value %}
+
+                                            <div class="flex justify-between gap-4 border-b border-gray-100 py-1">
+
+                                                <span class="text-gray-500">
+                                                    {{ attr.attribute.name }}
+                                                </span>
+
+                                                <span class="font-medium text-right">
+                                                    {{ value }}
+                                                </span>
+
+                                            </div>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                </div>
+
+
+                                {# Кнопка #}
+                                <button
+                                    type="button"
                                     @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
-                                    class="bg-esta-accent text-white px-3 py-2 rounded w-full">
-                                Получить информацию
-                            </button>
-                        </div>
-                    {% endfor %}
+                                    class="bg-esta-accent text-white px-3 py-2 rounded w-full"
+                                >
+                                    Получить информацию
+                                </button>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
                 </div>
-            </div>
+
             {% endfor %}
+
         </section>
     {% endif %}
 
