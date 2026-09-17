@@ -123,6 +123,7 @@ def callback_submit(request: HttpRequest) -> HttpResponse:
             'car_services': 'Автосервис / СТО',
             'manufacture': 'Производственный цех',
             'agriculture': 'Сельское хозяйство',
+            'shop': 'Торговые помещения',
             'other': 'Другое'
         }
 

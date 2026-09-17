@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Product, Category, Brand, ProductValue, Attribute, Image
+from django_summernote.admin import SummernoteModelAdmin
+from .models import Product, Category, Brand, ProductValue, Attribute, Image, CategoryAttribute
 
 class ProductValueInput(admin.TabularInline):
     model = ProductValue
@@ -22,10 +23,10 @@ class ProductImageInput(admin.TabularInline):
         js = ('admin/js/image_preview.js',);
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(SummernoteModelAdmin):
     list_display = ("name", "image_preview")
     readonly_fields = ("image_preview", )
-
+    summernote_fields = "description"
     @admin.display(description="Изображение")
     def image_preview(self, obj):
         if obj.image:
@@ -41,9 +42,9 @@ class ProductAdmin(admin.ModelAdmin):
         js = ('admin/js/product_attributes.js',)
 
 @admin.register(Brand)
-class BrandAdmin(admin.ModelAdmin):
+class BrandAdmin(SummernoteModelAdmin):
     list_display = ("name",)
-
+    summernote_fields = "description"
     @admin.display(description="Изображение")
     def image_preview(self, obj):
         if obj.image:
@@ -52,12 +53,20 @@ class BrandAdmin(admin.ModelAdmin):
 
 @admin.register(Attribute)
 class AttributeAdmin(admin.ModelAdmin):
-    list_display = ('get_attribute_name', 'category')
-    list_select_related = ('category',)
+    list_display = ('get_attribute_name',)
+
+    @admin.display(description="Имя атрибута")
+    def get_attribute_name(self, obj):
+        return f"Атрибут: {obj.name}" 
+
+@admin.register(CategoryAttribute)
+class CategoryAttributeAdmin(admin.ModelAdmin):
+    list_display = ('get_attribute_name',)\
     
     @admin.display(description="Имя атрибута")
     def get_attribute_name(self, obj):
-        return f"Категория: {obj.category.name} Атрибут: {obj.name}" 
+        return f"Атрибут: {obj.attribute.name}" 
+
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):

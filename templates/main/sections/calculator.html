@@ -6,25 +6,26 @@
         {% csrf_token %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-                <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Тип объекта:</label>
-                <select name="object_type"
+                <label for="object_select" class="block text-xs font-semibold uppercase text-gray-500 mb-1">Тип объекта:</label>
+                <select id="object_select" name="object_type"
                     class="w-full bg-white border border-gray-200 rounded px-3 py-2.5 text-sm focus:outline-orange-500">
                     <option value="warehouse">Склад</option>
                     <option value="manufacture">Производственный цех</option>
                     <option value="car_services">Автосервис / СТО</option>
                     <option value="agriculture">Сельское хозяйство</option>
+                    <option value="shop">Торговые помещения</option>
                     <option value="other">Другое</option>
                 </select>
             </div>
             <div>
-                <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Площадь (кв.м):</label>
-                <input type="number" name="area" placeholder="Например: 500"
+                <label for="area_input" class="block text-xs font-semibold uppercase text-gray-500 mb-1">Площадь (кв.м):</label>
+                <input id="area_input" type="number" name="area" placeholder="Например: 500"
                     class="w-full bg-white border border-gray-200 rounded px-3 py-2.5 text-sm focus:outline-orange-500"
                     required>
             </div>
             <div>
-                <label class="block text-xs font-semibold uppercase text-gray-500 mb-1">Высота потолков (м):</label>
-                <input type="number" step="0.1" name="height" placeholder="Например: 4.5"
+                <label for="height_input" class="block text-xs font-semibold uppercase text-gray-500 mb-1">Высота потолков (м):</label>
+                <input id="height_input" type="number" step="0.1" name="height" placeholder="Например: 4.5"
                     class="w-full bg-white border border-gray-200 rounded px-3 py-2.5 text-sm focus:outline-orange-500"
                     required>
             </div>
@@ -35,8 +36,8 @@
                 <span class="font-semibold text-gray-600 shrink-0 md:mr-4">Вид топлива:</span>
                 <div
                     class="flex flex-col items-start gap-y-2 pt-2 md:pt-0 md:flex-row md:justify-between md:items-center md:flex-1">
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="fuel" value="gas" class="sr-only peer">
+                    <label for="fuel_gas" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="fuel_gas" type="radio" name="fuel" value="gas" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">
@@ -50,8 +51,8 @@
                         </div>
                         <span>газ</span>
                     </label>
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="fuel" value="diesel" class="sr-only peer">
+                    <label for="fuel_diesel" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="fuel_diesel" type="radio" name="fuel" value="diesel" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">
@@ -65,8 +66,8 @@
                         </div>
                         <span>дизель</span>
                     </label>
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="fuel" value="oil" class="sr-only peer">
+                    <label for="fuel_oil" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="fuel_oil" type="radio" name="fuel" value="oil" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">
@@ -81,8 +82,8 @@
                         </div>
                         <span>отработка</span>
                     </label>
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="fuel" value="solid" class="sr-only peer">
+                    <label for="fuel_solid" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="fuel_solid" type="radio" name="fuel" value="solid" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">
@@ -105,8 +106,8 @@
                     монтажа:</span>
                 <div
                     class="flex flex-col items-start gap-y-2 md:gap-x-4 pt-2 md:pt-0 md:flex-row md:items-center lg:justify-end">
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="montage" value="podvesnoy" class="sr-only peer">
+                    <label for="montage_podvesnoy" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="montage_podvesnoy" type="radio" name="montage" value="podvesnoy" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">
@@ -120,8 +121,8 @@
                         </div>
                         <span>подвесной</span>
                     </label>
-                    <label class="flex items-center gap-x-1.5 py-2 md:py-0">
-                        <input type="radio" name="montage" value="stacionar" class="sr-only peer">
+                    <label for="montage_stacionar" class="flex items-center gap-x-1.5 py-2 md:py-0">
+                        <input id="montage_stacionar" type="radio" name="montage" value="stacionar" class="sr-only peer">
                         <div class="group w-4 h-4 border-2 border-esta-accent rounded-full flex items-center justify-center bg-white transition-colors duration-200 
                                 peer-checked:bg-esta-accent peer-checked:border-esta-accent 
                                 peer-focus-visible:ring-2 peer-focus-visible:ring-esta-accent/50">

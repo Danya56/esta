@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }}{% endblock title %}
+{% load static %}
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+
+    {# Хлебные крошки + заголовок #}
+    <div class="flex flex-col md:flex-row flex-wrap justify-between items-center pt-12 gap-y-4 lg:pt-20 border-b-2 border-esta-accent pb-4 mb-6">
+        <nav class="text-xs text-text-muted mb-6 md:mb-0">
+            <a href="/" class="hover:text-esta-accent transition">Главная</a>
+            <span class="mx-2">/</span>
+            <a href="/products/catalog/" class="hover:text-esta-accent transition">Каталог</a>
+            <span class="mx-2">/</span>
+            <a href="{% url 'category_detail' slug=category.slug %}" class="hover:text-esta-accent transition">
+                {{ category.name }}
+            </a>
+            {% if product.brand %}
+                <span class="mx-2">/</span>
+                <a href="{% url 'brand_detail' category_slug=category.slug brand_slug=product.brand.slug %}"
+                   class="hover:text-esta-accent transition">
+                    {{ product.brand.name }}
+                </a>
+            {% endif %}
+            <span class="mx-2">/</span>
+            <span class="text-text-main">{{ product.name }}</span>
+        </nav>
+        <h1 class="text-2xl font-bold font-montserrat text-right md:text-left">
+            {{ product.name }}
+        </h1>
+    </div>
+
+    {# Карточка товара: галерея + ключевая информация #}
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 mb-10">
+
+        {# Галерея #}
+        <div>
+            {% with images=product.images.all %}
+                {% if images %}
+                    <div x-data="{ active: 0 }" class="flex flex-col gap-3">
+                        {# Основная картинка #}
+                        <div class="aspect-square bg-gray-100 rounded-xl overflow-hidden">
+                            {% for img in images %}
+                                <img x-show="active === {{ forloop.counter0 }}"
+                                     src="{{ img.image.url }}"
+                                     alt="{{ product.name }}"
+                                     class="w-full h-full object-contain p-4">
+                            {% endfor %}
+                        </div>
+
+                        {# Превьюшки, если больше одной #}
+                        {% if images|length > 1 %}
+                            <div class="flex gap-2 overflow-x-auto">
+                                {% for img in images %}
+                                    <button type="button"
+                                            @click="active = {{ forloop.counter0 }}"
+                                            :class="active === {{ forloop.counter0 }}
+                                                    ? 'border-esta-accent'
+                                                    : 'border-transparent'"
+                                            class="w-16 h-16 sm:w-20 sm:h-20 shrink-0
+                                                   border-2 rounded-lg overflow-hidden
+                                                   bg-gray-100 transition">
+                                        <img src="{{ img.image.url }}"
+                                             alt=""
+                                             class="w-full h-full object-contain p-1">
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="aspect-square bg-gray-100 rounded-xl flex items-center justify-center
+                                text-gray-400 text-sm">
+                        Нет изображений
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        {# Ключевая информация + действия #}
+        <div class="flex flex-col gap-4">
+            {% if product.brand %}
+                <div class="text-sm text-gray-500">
+                    Бренд:
+                    <a href="{% url 'brand_detail' category_slug=category.slug brand_slug=product.brand.slug %}"
+                       class="text-esta-accent hover:underline">
+                        {{ product.brand.name }}
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if product.sku %}
+                <div class="text-sm text-gray-500">
+                    Артикул: <span class="text-gray-800 font-medium">{{ product.sku }}</span>
+                </div>
+            {% endif %}
+
+            {# Габариты одним блоком — если есть хоть одно #}
+            {% if product.product_length or product.product_width or product.product_height or product.product_weight %}
+                <div class="mt-2 grid grid-cols-2 gap-3">
+                    {% if product.product_length %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Длина</div>
+                            <div class="font-semibold">{{ product.product_length }} см</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_width %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Ширина</div>
+                            <div class="font-semibold">{{ product.product_width }} см</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_height %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Высота</div>
+                            <div class="font-semibold">{{ product.product_height }} см</div>
+                        </div>
+                    {% endif %}
+                    {% if product.product_weight %}
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <div class="text-xs text-gray-500">Вес</div>
+                            <div class="font-semibold">{{ product.product_weight }} кг</div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="mt-2 flex flex-col sm:flex-row gap-3">
+                <button type="button"
+                        x-data
+                        @click="$store.callback.open('{{ product.name|escapejs }}');"
+                        class="flex-1 bg-esta-accent hover:bg-esta-accent-hover
+                               text-white font-bold py-3 px-4 rounded
+                               uppercase tracking-wider transition text-center">
+                    Получить информацию
+                </button>
+            </div>
+        </div>
+    </section>
+
+    {# Описание #}
+    {% if product.description %}
+        <section class="mb-10">
+            <h2 class="text-xl md:text-2xl font-semibold mb-3">Описание</h2>
+            <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                {{ product.description|safe }}
+            </div>
+        </section>
+    {% endif %}
+
+    {# Технические характеристики #}
+    {% if specs %}
+        <section class="mb-10">
+            <h2 class="text-xl md:text-2xl font-semibold mb-3">Технические характеристики</h2>
+            <div class="border rounded-lg overflow-hidden">
+                <table class="w-full border-collapse">
+                    <tbody>
+                        {% for attr, value in specs %}
+                            <tr class="{% cycle 'bg-white' 'bg-gray-50' %}">
+                                <th class="text-left font-medium text-gray-700 p-3 border-b border-gray-100 w-1/2 sm:w-2/5">
+                                    {{ attr.attribute.name }}
+                                </th>
+                                <td class="p-3 border-b border-gray-100 text-gray-900">
+                                    {{ value }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% endif %}
+
+    {# Назад в категорию #}
+    <div class="mb-8">
+        <a href="{% url 'category_detail' slug=category.slug %}"
+           class="inline-flex items-center gap-2 text-sm text-esta-accent hover:underline">
+            ← Вернуться в «{{ category.name }}»
+        </a>
+    </div>
+
+</main>
+
+{% include 'modals/call_phone.html' %}
+{% include 'toasts/toast.html' %}
+{% include 'documents/proccessing_personal_data.html' %}
+{% include 'documents/politics_personal_data.html' %}
+{% include 'documents/agree_cookies.html' %}
+{% include 'documents/privacy.html' %}
+{% endblock %}

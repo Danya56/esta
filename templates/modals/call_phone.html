@@ -4,7 +4,7 @@
         x-data
         @open-callback.window="$el.showModal(); document.body.style.overflow = 'hidden'" 
         @close-callback.window="$el.close(); document.body.style.overflow = ''"  
-        @close="$el.querySelector('form').reset(); document.body.style.overflow = ''" 
+        @close="$el.querySelector('form').reset(); $store.callback.productName = null; document.body.style.overflow = ''" 
         class="backdrop:backdrop-blur-md backdrop:bg-black/40 p-6 rounded-lg shadow-xl"
         >
     <div id="modalContent" class="relative flex flex-col w-full lg:w-[500px] p-4">
@@ -24,8 +24,20 @@
                     class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors" required>
                 <input type="tel" name="phone" placeholder="+7 (___) ___-__-__"
                     class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors" required>
-                <textarea name="comment" placeholder="Ваш комментарий"
-                    class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors h-[100px] max-h-[300px]"></textarea>
+                <textarea name="comment"
+                    x-data="{
+                        get text() {
+                            return $store.callback.productName
+                                ? `Здравствуйте! Интересует цена и наличие оборудования: ${$store.callback.productName}`
+                                : ''
+                        }
+                    }"
+                    :value="text"
+                    @input="if ($store.callback.productName && $event.target.value === text) { $store.callback.productName = null; }"
+                    placeholder="Ваш комментарий"
+                    class="border-2 border-gray-300 rounded px-3 py-4 text-sm w-full focus:outline-esta-accent hover:border-esta-accent transition-colors h-[100px] max-h-[300px]"
+                >
+                </textarea>
                 
                 <div x-data="{agree: false}" class="flex flex-col relative">
                     <label class="flex gap-x-2 items-center text-sm">

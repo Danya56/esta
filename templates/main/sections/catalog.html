@@ -3,11 +3,39 @@
 <section class="my-10">
     <div class="text-center mb-10 flex flex-col gap-3">
         <h2 class="text-2xl font-montserrat font-bold tracking-tight">
-            Продукция
+            Оборудование
         </h2>
     </div>
-    {% for category in categories %}
-    {% if category.children.all %}
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+        {% for category in categories %}
+            <a href="{% url 'category_detail' category.slug %}"
+            class="group bg-esta-accent border-2 border-esta-accent rounded-xl overflow-hidden
+                    flex flex-col
+                    transition hover:scale-[1.02] hover:shadow-lg">
+                <div class="relative aspect-square sm:aspect-[4/3] overflow-hidden">
+                    {% if category.image %}
+                        <img src="{{ category.image.url }}"
+                            alt="{{ category.name }}"
+                            loading="lazy"
+                            class="w-full h-full object-cover
+                                    transition duration-300 group-hover:scale-105">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center
+                                    bg-esta-accent/60 text-white/40 text-3xl">
+                            ★
+                        </div>
+                    {% endif %}
+                </div>
+                <h3 class="p-3 text-white sm:p-4 text-sm sm:text-base lg:text-lg
+                        font-semibold leading-tight
+                        text-esta-accent-contrast">
+                    {{ category.name }}
+                </h3>
+            </a>
+        {% endfor %}
+    </div>
+    
+    <!-- {% if category.children.all %}
     <h3 class="cursor-pointer text-esta-accent text-center mb-4"><a href="#">{{category.name}}</a></h3>
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {% if category.children.all %}
@@ -26,16 +54,12 @@
                 <image src="{{child.image.url}}" class="w-full aspect-square bg-gray-300 rounded-xl flex justify-center items-center text-gray-600 transition-colors mb-4" />
                 <button
                     class="w-full bg-esta-accent hover:bg-esta-accent-hover text-white font-bold py-3 rounded uppercase tracking-wider transition">Перейти
-                    в каталог</button>
+                    в каталог</button> #todo: сделать кнопку
             </div>
         {% endfor %}
         {% endif %}
         
     </div>
-    {% endif %}
-    {% endfor %}
-
-
-
+    {% endif %} -->
 
 </section>

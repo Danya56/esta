@@ -79,6 +79,18 @@
     <script defer src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('callback', {
+                productName: null,
+                open(productName) {
+                    this.productName = productName;
+                    window.dispatchEvent(new CustomEvent('open-callback'));
+                }
+            });
+        });
+    </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -94,7 +106,10 @@
         "addressCountry": "RU"
       }
     }
+    <!-- <script src="//code.jivo.ru/widget/9kdLdxOHWH" async></script> -->
     </script>
+
+
     
     {% block extra_head %}{% endblock %}
 </head>
@@ -112,7 +127,27 @@
             </a>
 
             <nav class="hidden md:flex lg:gap-x-4 md:justify-between font-medium items-center">
-                <a href="/catalog/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Каталог</a>
+                <div class="relative group p-2">
+                    <a href="{% url 'catalog' %}" 
+                    class="hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center group-hover:text-esta-accent">
+                        Каталог
+                    </a>
+                    
+                    <div class="absolute left-0 mt-2 w-72 bg-esta-accent text-white rounded-xl shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-left group-hover:scale-100 scale-95 z-50">
+                        <ul class="py-2">
+                            {% for category in categories %}
+                                <li>
+                                    <a href="{% url 'category_detail' slug=category.slug %}" 
+                                    class="block px-4 py-2 hover:bg-white/10 transition-colors duration-200 border-b-white/25">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% empty %}
+                                <li class="px-4 py-2 text-gray-300">Категории не найдены</li>
+                            {% endfor %}
+                        </ul>   
+                    </div>
+                </div>
                 <a href="{% url 'main_index' %}#application-section" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Сферы применения</a>
                 <a href="/about/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">О компании</a>
                 <a href="/delivery/" class="p-2 hover:text-esta-accent focus:outline-none focus-visible:text-esta-accent transition-colors duration-300 font-medium text-center">Доставка</a>
@@ -215,6 +250,6 @@
     </footer>
 
 
-    {% include 'includes/yandex_metrika.html' %}
+    <!-- {% include 'includes/yandex_metrika.html' %} -->
 </body>
 </html>

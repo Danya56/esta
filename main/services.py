@@ -19,6 +19,6 @@ def send_client_email(client: dict):
         subject=subject,
         message=full_message,
         from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=['danil.goryunov.2020@gmail.com'], #'npoesta@bk.ru'
+        recipient_list=['danil.goryunov.2020@gmail.com', 'npoesta@bk.ru'],
         fail_silently=False,
     )

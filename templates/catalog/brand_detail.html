@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% block title %}{{ brand.name }} — {{ category.name }}{% endblock title %}
+{% load static %}
+
+{% block content %}
+<main class="max-w-6xl mx-auto px-4">
+
+    {# Хлебные крошки + заголовок #}
+    <div class="flex flex-col md:flex-row flex-wrap justify-between items-center pt-12 gap-y-4 lg:pt-20 border-b-2 border-esta-accent pb-4 mb-6">
+        <nav class="text-xs text-text-muted mb-6 md:mb-0">
+            <a href="/" class="hover:text-esta-accent transition">Главная</a>
+            <span class="mx-2">/</span>
+            <a href="/catalog/" class="hover:text-esta-accent transition">Каталог</a>
+            <span class="mx-2">/</span>
+            <a href="{% url 'category_detail' slug=category.slug %}" class="hover:text-esta-accent transition">
+                {{ category.name }}
+            </a>
+            <span class="mx-2">/</span>
+            <span class="text-text-main">{{ brand.name }}</span>
+        </nav>
+        <h1 class="text-2xl font-bold font-montserrat">
+            {{ brand.name }} — {{ category.name }}
+        </h1>
+    </div>
+
+    {# Модельный ряд бренда — сверху #}
+    {% if products_data %}
+        <section class="flex flex-col gap-4 mb-10">
+            <div>
+                <h3 class="text-2xl">Модельный ряд {{ brand.name }}</h3>
+                <span class="text-gray-400 text-sm">
+                    Полный набор характеристик и габариты — на странице каждой модели
+                </span>
+            </div>
+
+            <div x-data class="w-full overflow-x-auto">
+                {# Desktop / Tablet #}
+                <table class="hidden md:table w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border p-2 bg-gray-100 text-center">Наименование оборудования</th>
+                            {% for attr in category_attrs %}
+                                <th class="border p-2 bg-gray-100 text-center">{{ attr.attribute.name }}</th>
+                            {% endfor %}
+                            <th class="border p-2 bg-gray-100 text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in products_data %}
+                            <tr>
+                                <td class="border p-2 font-medium">
+                                    <a href="{% url 'product_detail' slug=row.obj.slug %}"
+                                    class="text-esta-accent hover:underline">
+                                        {{ row.obj.name }}
+                                    </a>
+                                </td>
+                                {% for attr, value in row.cells %}
+                                    <td class="border p-2 text-center">{{ value|default:"—" }}</td>
+                                {% endfor %}
+                                <td class="border p-2 text-center">
+                                    <button type="button"
+                                            @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
+                                            class="bg-esta-accent text-white px-3 py-2 rounded w-full md:w-auto">
+                                        Получить информацию
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                {# Mobile #}
+                <div class="md:hidden space-y-4">
+                    {% for row in products_data %}
+                        <div class="border rounded-lg p-4 bg-white shadow-sm">
+                            <div class="font-semibold text-lg mb-2">
+                                <a href="{% url 'product_detail' slug=row.obj.slug %}"
+                                class="text-esta-accent hover:underline">
+                                    {{ row.obj.name }}
+                                </a>
+                            </div>
+                            <div class="space-y-1 text-sm mb-3">
+                                {% for attr, value in row.cells %}
+                                    {% if value %}
+                                        <div class="flex justify-between gap-4 border-b border-gray-100 py-1">
+                                            <span class="text-gray-500">{{ attr.attribute.name }}</span>
+                                            <span class="font-medium text-right">{{ value }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <button type="button"
+                                    @click="$store.callback.open('{{ row.obj.name|escapejs }}')"
+                                    class="bg-esta-accent text-white px-3 py-2 rounded w-full">
+                                Получить информацию
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <div class="text-center py-10 border rounded-lg bg-gray-50 mb-10">
+            <p class="text-gray-500 mb-4">
+                У бренда «{{ brand.name }}» пока нет моделей в категории «{{ category.name }}».
+            </p>
+            <a href="{% url 'category_detail' slug=category.slug %}"
+               class="inline-block bg-esta-accent hover:bg-esta-accent-hover text-white px-4 py-2 rounded">
+                Вернуться в категорию
+            </a>
+        </div>
+    {% endif %}
+
+    {% if category.description or brand.image %}
+        <section class="border-t-2 border-esta-accent/30 pt-8 mt-4">
+            <h2 class="text-xl md:text-2xl font-semibold mb-4">
+                О бренде {{ brand.name }}
+            </h2>
+
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+                {% if brand.image %}
+                    <div class="w-full md:w-48 lg:w-56 shrink-0 rounded-xl overflow-hidden bg-gray-100">
+                        <img src="{{ brand.image.url }}"
+                             alt="{{ brand.name }}"
+                             loading="lazy"
+                             class="w-full aspect-square object-contain">
+                    </div>
+                {% endif %}
+
+                {% if brand.description %}
+                    <div class="text-gray-700 text-base md:text-lg leading-relaxed space-y-4">
+                        {{ brand.description|safe }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mt-6">
+                <a href="{% url 'category_detail' slug=category.slug %}"
+                   class="inline-flex items-center gap-2 text-sm text-esta-accent hover:underline">
+                    ← Все бренды категории «{{ category.name }}»
+                </a>
+            </div>
+        </section>
+    {% else %}
+        <div class="border-t-2 border-esta-accent/30 pt-6">
+            <a href="{% url 'category_detail' slug=category.slug %}"
+               class="inline-flex items-center gap-2 text-sm text-esta-accent hover:underline">
+                ← Все бренды категории «{{ category.name }}»
+            </a>
+        </div>
+    {% endif %}
+
+</main>
+
+{% include 'modals/call_phone.html' %}
+{% include 'toasts/toast.html' %}
+{% include 'documents/proccessing_personal_data.html' %}
+{% include 'documents/politics_personal_data.html' %}
+{% include 'documents/agree_cookies.html' %}
+{% include 'documents/privacy.html' %}
+{% endblock %}

@@ -23,7 +23,7 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = f"ЭСТА | Промышленное теплооборудование <{env('EMAIL_HOST_USER')}>"
 
-ALLOWED_HOSTS = ['192.168.1.105', 'localhost', '127.0.0.1', '*']
+ALLOWED_HOSTS = ['esta56.ru', 'www.esta56.ru', '157.22.189.97']
 
 
 INSTALLED_APPS = [
@@ -125,4 +125,5 @@ if DEBUG:
     import socket
     socket.getfqdn = lambda *args, **kwargs: 'localhost'
 
+RATELIMIT_IP_META_KEY = 'HTTP_X_FORWARDED_FOR'
 SITE_ID = 1

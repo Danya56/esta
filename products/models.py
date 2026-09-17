@@ -18,7 +18,6 @@ class Category(models.Model):
         verbose_name="Родительская категория"
     )
 
-
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
@@ -31,22 +30,41 @@ class Category(models.Model):
         return self.name
 
 class Attribute(models.Model):
-    category = models.ForeignKey(
-        Category, 
-        on_delete=models.CASCADE, 
-        related_name='attributes', 
-        verbose_name="Категория"
-    )
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, blank=True)
 
     class Meta:
-        unique_together = ('category', 'name', 'slug')
         verbose_name = "Атрибут"
         verbose_name_plural = "Атрибуты"
     
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+    
     def __str__(self) -> str:
         return f"{self.name}"
+
+class CategoryAttribute(models.Model):
+    category = models.ForeignKey(
+        Category, 
+        on_delete=models.CASCADE,
+        related_name='category_attributes'
+    )
+    attribute = models.ForeignKey(
+        Attribute,
+        on_delete=models.CASCADE,
+        related_name='category_attributes'
+    )
+    is_required = models.BooleanField(default=False, verbose_name="Обязательный")
+    is_filterable = models.BooleanField(default=True, verbose_name="В фильтрах")
+
+    class Meta:
+        unique_together = ('category', 'attribute')
+        verbose_name = "Атрибут категории"
+        verbose_name_plural = "Атрибуты категорий"
+    
+    def __str__(self):
+        return f"{self.category.name} → {self.attribute.name}"
 
 class ProductValue(models.Model):
     product = models.ForeignKey(
@@ -57,7 +75,7 @@ class ProductValue(models.Model):
     )
 
     attribute = models.ForeignKey(
-        Attribute,
+        CategoryAttribute,
         on_delete=models.CASCADE,
         verbose_name="Наименование атрибута",
     )
@@ -71,6 +89,7 @@ class Brand(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Наименование бренда")
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     image = models.ImageField(upload_to="brand/gallery", verbose_name="Изображение")
+    description = models.TextField(blank=True, null=True)
     
     class Meta:
         verbose_name = "Бренд"
@@ -81,6 +100,9 @@ class Brand(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return self.name
 
 class Product(models.Model):
     name = models.CharField(
@@ -93,6 +115,9 @@ class Product(models.Model):
         unique=True, 
         verbose_name="Артикул товара"
     )
+
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
@@ -142,6 +167,22 @@ class Product(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
+
+    class Meta:
+        verbose_name="Оборудование"
+        verbose_name_plural="Оборудование"
+    
+    def __str__(self) -> str:
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('product_detail', kwargs={'slug': self.slug})
     
 class Image(models.Model):
     product = models.ForeignKey(
@@ -157,7 +198,7 @@ class Image(models.Model):
 
     class Meta:
         verbose_name = "Изображение товара"
-        verbose_name = "Изображения товаров"
+        verbose_name_plural = "Изображения товаров"
         ordering = ['position']
     
     def __str__(self) -> str:
