@@ -23,7 +23,7 @@ EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = f"ЭСТА | Промышленное теплооборудование <{env('EMAIL_HOST_USER')}>"
 
-ALLOWED_HOSTS = ['esta56.ru', 'www.esta56.ru', '157.22.189.97']
+ALLOWED_HOSTS = ['esta56.ru', 'www.esta56.ru', '157.22.189.97', '127.0.0.1', 'localhost']
 
 
 INSTALLED_APPS = [
